@@ -1,0 +1,31 @@
+1.) install python 2.7
+2.) install pip dependancy manager: "sudo apt-get install python-pip"
+3.) install django 1.10.3: "pip install Django==1.10.3"
+4.) install postgresql extension for python: "pip install psycopg2"
+5.) install postgresql: "sudo apt-get install postgresql"
+6.) config postgresql:
+	6.1) exec: "sudo -i -u postgres" <--- tok da zberemo userja od baze
+	6.2) exec: "createuser --interactive --pwprompt"
+		6.2.1) name of role to add: "userfrim"
+		6.2.2) password for new role: "frim123"
+		6.2.3) be superuser? NO
+		6.2.4) create db? YES
+		6.2.5) create roles? NO
+	6.3) exec: "createdb frimdb"
+	6.4) exec: "psql"
+		6.4.1) enter: "grant all privileges on database frimdb to userfrim;"
+		6.4.2) ce je vse ok more napisat "GRANT"
+		6.4.3) enter: "\q" <--- tok da gremo ven iz psql
+	6.5) ctrl + c: tok da gremo vn iz postgres userja v nasga userja
+7.) cd v projekt tam kjer je file "manage.py"
+8.) exec: "python migrate.py makemigrations" <--- ta ukaz zgenerira sql file k se morjo izvest nad bazo ce si spremenil kej model.py file oziroma prvic mors zagnat da nardis init za django project na bazi
+9.) exec: "python manage.py migrate" <--- apply-as ta sql file k si ga naredu v prejsnjem koraku
+10.) exec: "python manage.py runserver" <--- zdej bi mogu bit site lokalno online
+11.) go to: localhost:8000 in ce je use ok more stvar delat
+
+
+Admin panel:
+1.) cd v projekt tam kjer je file "manage.py"
+2.) exec: "python manage.py createsuperuser"
+3.) vpises username, password in email(email je lahk krneki)
+4.) go to: localhost:8000/admin
