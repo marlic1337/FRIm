@@ -1,0 +1,39 @@
+1.) install python 2.7
+2.) add to path:
+	2.1) C:\Python27
+	2.2) C:\Python27\Scripts
+3.) install django 1.10.3: "pip install Django==1.10.3"
+4.) install postgresql extension for python Psycopg2:
+	x86 - http://www.stickpeople.com/projects/python/win-psycopg/2.6.2/psycopg2-2.6.2.win32-py2.7-pg9.5.3-release.exe
+	x64 - http://www.stickpeople.com/projects/python/win-psycopg/2.6.2/psycopg2-2.6.2.win-amd64-py2.7-pg9.5.3-release.exe
+5.) install postgresql: https://www.postgresql.org/download/windows/
+	5.1: during instalation set postgres user password(your choice)
+	5.2: set port to: 5432
+	5.3: select locale
+6.) config postgresql:
+	6.1) open pgAdmin
+	6.2) expend Servers in sidebar and then PostgreSQL 9.6
+	6.3) Right click on Login/Group Roles and click Create->Login/Group Role
+		6.3.1) Tab General->Name: "userfrim"
+		6.3.2) Tab Definition->Password: "frim123"
+		6.3.3) Tab privileges->Can login? YES
+		6.3.4) Tab privileges->Superuser? NO
+		6.3.5) Tab privileges->Create roles? NO
+		6.3.6) Tab privileges->Create db? YES
+		6.3.5) Save
+	6.4) Right click on Databases and then Create->Database
+		6.4.1) Tab General->Database: "frimdb"
+		6.4.2) Tab General->Owner: "userfrim"
+		6.4.3) Save
+7.) cd v projekt tam kjer je file "manage.py"
+8.) exec: "python migrate.py makemigrations" <--- ta ukaz zgenerira sql file k se morjo izvest nad bazo ce si spremenil kej model.py file oziroma prvic mors zagnat da nardis init za django project na bazi
+9.) exec: "python manage.py migrate" <--- apply-as ta sql file k si ga naredu v prejsnjem koraku
+10.) exec: "python manage.py runserver" <--- zdej bi mogu bit site lokalno online
+11.) go to: localhost:8000 in ce je use ok more stvar delat
+
+
+Admin panel:
+1.) cd v projekt tam kjer je file "manage.py"
+2.) exec: "python manage.py createsuperuser"
+3.) vpises username, password in email(email je lahk krneki)
+4.) go to: localhost:8000/admin
