@@ -3,6 +3,7 @@
 	2.1) C:\Python27
 	2.2) C:\Python27\Scripts
 3.) install django 1.10.3: "pip install Django==1.10.3"
+	3.1) install django-cleanup: "pip install django-cleanup"
 4.) install postgresql extension for python Psycopg2:
 	x86 - http://www.stickpeople.com/projects/python/win-psycopg/2.6.2/psycopg2-2.6.2.win32-py2.7-pg9.5.3-release.exe
 	x64 - http://www.stickpeople.com/projects/python/win-psycopg/2.6.2/psycopg2-2.6.2.win-amd64-py2.7-pg9.5.3-release.exe
@@ -26,7 +27,7 @@
 		6.4.2) Tab General->Owner: "userfrim"
 		6.4.3) Save
 7.) cd v projekt tam kjer je file "manage.py"
-8.) exec: "python migrate.py makemigrations" <--- ta ukaz zgenerira sql file k se morjo izvest nad bazo ce si spremenil kej model.py file oziroma prvic mors zagnat da nardis init za django project na bazi
+8.) exec: "python manage.py makemigrations" <--- ta ukaz zgenerira sql file k se morjo izvest nad bazo ce si spremenil kej model.py file oziroma prvic mors zagnat da nardis init za django project na bazi
 9.) exec: "python manage.py migrate" <--- apply-as ta sql file k si ga naredu v prejsnjem koraku
 10.) exec: "python manage.py runserver" <--- zdej bi mogu bit site lokalno online
 11.) go to: localhost:8000 in ce je use ok more stvar delat

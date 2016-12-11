@@ -1,6 +1,7 @@
 1.) install python 2.7
 2.) install pip dependancy manager: "sudo apt-get install python-pip"
 3.) install django 1.10.3: "pip install Django==1.10.3"
+	3.1) install django-cleanup: "pip install django-cleanup"
 4.) install postgresql extension for python: "pip install psycopg2"
 5.) install postgresql: "sudo apt-get install postgresql"
 6.) config postgresql:
