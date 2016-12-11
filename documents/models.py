@@ -2,4 +2,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
+
+class Document(models.Model):
+    file = models.FileField(upload_to='documents')
+    title = models.CharField(max_length=60)
+    description = models.CharField(max_length=1000)
+    date = models.DateTimeField(auto_now_add=True)
+    #owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    #subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
