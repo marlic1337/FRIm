@@ -8,3 +8,6 @@ class UploadFileForm(forms.Form):
 class UpdateFileForm(forms.Form):
     title = forms.CharField(max_length=60)
     description = forms.CharField(max_length=1000)
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=60)

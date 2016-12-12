@@ -4,14 +4,26 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 
 from .models import Document
-from .forms import UploadFileForm, UpdateFileForm
+from .forms import UploadFileForm, UpdateFileForm, SearchForm
 
 
 def list(request):
-    documents = Document.objects.order_by('-date')
-    return render(request, 'documents/list.html', {'documents': documents})
+    documents = None
+    query_text = None
+    if request.method == 'GET' and 'query' in request.GET.keys():
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
+            query_text = request.GET['query']
+            query = SearchQuery(query_text)
+            documents = Document.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
+    else:
+        form = SearchForm()
+        documents = Document.objects.order_by('-date')
+    return render(request, 'documents/list.html', {'documents': documents, 'form': form, 'query_text': query_text})
 
 def upload(request):
     if request.method == 'POST':

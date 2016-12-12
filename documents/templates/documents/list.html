@@ -6,6 +6,21 @@
     </head>
     <body>
     <a href="{% url 'documents:upload' %}">Nova datoteka</a>
+    <form action="{% url 'documents:list' %}" method="get">
+        <p>Iskanje:</p>
+        <p>{{ form.non_field_errors }}</p>
+        <p>
+            {{ form.query.errors }}
+            {{ form.query }}
+        </p>
+
+        <p><input type="submit" value="Išči" /></p>
+    </form>
+    {% if query_text %}
+        <a href="{% url 'documents:list' %}">Nazaj na seznam</a>
+        <p>Rezultati iskanja za: {{ query_text }}</p>
+    {% endif %}
+
     {% if documents %}
         <ul>
         {% for document in documents %}
