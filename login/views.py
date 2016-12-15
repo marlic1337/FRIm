@@ -55,7 +55,7 @@ def login(request):
 
     mail = request.POST['mail']
     user = authenticate(mail, request.POST['password'])
-    if (user[0] == None or user[1] == None):
+    if (user == None or user[0] == None or user[1] == None):
         return render(request, 'login/loginFailed.html') #ERROR! incomplete user data!
     elif (user[2] == None):
         return render(request, 'login/loginInvalidStudentId.html')  # ERROR! invalid student id!
@@ -88,7 +88,7 @@ def authenticate(mail, password):
     cookies = dict(MoodleSession=response.request._cookies['MoodleSession'])
 
     if (response.url != 'https://ucilnica.fri.uni-lj.si/my/'):
-        return False
+        return None
 
     #parse name and profile id
     profile = re.findall(r'Prijavljeni ste kot <a href="https://ucilnica.fri.uni-lj.si/user/profile.php\?id=(\d+)" title="Poglej profil">(.*?)</a>', response.content)
