@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registracija</title>
+</head>
+<body>
+        <form action="{% url 'login:register' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Registracija</p>
+            <p>{{ form.non_field_errors }}</p>
+            <p>Uporabniško ime
+                {{ form.displayName.errors }}
+                {{ form.displayName }}
+            </p>
+            <p>E-naslov
+                {{ form.mail.errors }}
+                {{ form.mail }}
+            </p>
+            <p>Vpisna številka
+                {{ form.studentId.errors }}
+                {{ form.studentId }}
+            </p>
+            <p><input type="submit" value="Potrdi" /></p>
+        </form>
+</body>
+</html>
