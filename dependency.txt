@@ -1,0 +1,5 @@
+python==2.7.12
+django==1.10.3
+requests==2.12.4
+django-cleanup==0.4.2
+psycopg2==2.6.1
