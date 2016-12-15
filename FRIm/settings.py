@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'home.apps.HomeConfig',
     'documents.apps.DocumentsConfig',
+    'login.apps.LoginConfig',
     'django_cleanup',
 ]
 
