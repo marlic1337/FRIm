@@ -1,0 +1,18 @@
+<h1>UNI - zimski semester</h1>
+<ul>
+    {% for klass in all_uni %}
+    <li><a href="/classes/{{ klass.predmet_id }}/">{{ klass.predmet_id }} - {{ klass.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
+<h1>VSS - zimski semester</h1>
+<ul>
+    {% for klass in all_vss %}
+    <li><a href="/classes/{{ klass.predmet_id }}/">{{ klass.predmet_id }} - {{ klass.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
+<h1>MAG - zimski semester</h1>
+<ul>
+    {% for klass in all_mag %}
+    <li><a href="/classes/{{ klass.predmet_id }}/">{{ klass.predmet_id }} - {{ klass.predmet_name }}</a></li>
+    {% endfor %}
+</ul>

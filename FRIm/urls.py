@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^', include('login.urls')),
     url(r'^documents/', include('documents.urls')),
     url(r'^admin/', admin.site.urls),
+	url(r'^classes/', include('classes.urls')),
     #url(r'^login/', include('login.urls')),
 ]
