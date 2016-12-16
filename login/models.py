@@ -8,3 +8,4 @@ class User(models.Model):
     displayName = models.CharField(max_length=20)
     mail = models.CharField(max_length=30)
     studentId = models.CharField(max_length=10)
+    #is_active = models.BooleanField()

@@ -90,6 +90,14 @@ DATABASES = {
     }
 }
 
+# Custom authentication
+#AUTH_USER_MODEL = 'login.User'
+
+#AUTHENTICATION_BACKENDS = [
+#    'django.contrib.auth.backends.ModelBackend',
+#    'login.CustomLogin'
+#]
+
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
