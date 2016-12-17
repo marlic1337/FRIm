@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'documents.apps.DocumentsConfig',
 	'classes.apps.ClassesConfig',
+    'forum',
     'login.apps.LoginConfig',
     'django_cleanup',
 ]
