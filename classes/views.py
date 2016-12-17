@@ -10,7 +10,7 @@ import re
 
 
 def index(request):
-    parseUrnik()
+    urnik = parseUrnikVpisna("63110117")
     #all_classes = Predmet.objects.all()
     #all_uni = Predmet.objects.all().filter(predmet_category="UNI")
     #all_vss = Predmet.objects.all().filter(predmet_category="VSS")
@@ -23,7 +23,12 @@ def index(request):
     #    'all_mag': all_mag,
     #}
 
+    res = ''
+    for u in urnik:
+        res += str(u) + '\n'
+
     context = {
+        'myUrnik': res.replace('\n', ' - '),
         'all_classes': Predmet.objects.all(),
         'all_teachers': Profesor.objects.all(),
         'all_classrooms': Prostor.objects.all(),
@@ -92,3 +97,93 @@ def parseUrnik():
         s.save()
 
     return True
+
+
+#
+# Parse results:
+# Step A:
+#   [0]: time
+#   [1]: data passed to step B
+# Step B:
+#   [0]: day (MON, TUE, WEN, THU, FRI)
+#   [1]: type (P or LV)
+#   [2]: duration in hours
+#   [3]: subject ID
+#   [4]: data passed to step C
+# Step C:
+#   [0]: data type(classroom, teacher, group, activity)
+#   [1]: data id
+#
+
+def parseUrnikVpisna(studentId):
+    uaList = list()
+    urnikName = Urnik.objects.all()[0].urnik_name
+    urnikUrl = 'https://urnik.fri.uni-lj.si/timetable/' + urnikName + '/allocations?student=' + studentId
+    response = requests.get(urnikUrl)
+    content = response.content.replace('\n', '').replace('\r', '').replace(' ', '')
+
+    stepA = re.findall(r'<trclass="timetable"><tdclass="hour">(.*?)</td>(.*?)</tr>', content)
+    for a in stepA:
+        stepB = re.findall(r'<tdclass="(.*?)allocated(.*?)"colspan=1rowspan=(\d{1})><div><span>.*?\(.*?\).*?\((.*?)\).*?</span>(.*?)</div></td>', a[1])
+        for b in stepB:
+            ua = UrnikActivity()
+            ua.time = a[0]
+            ua.day = b[0]
+            ua.duration = b[2]
+            ua.type = b[1]
+            ua.subjectId = b[3]
+            ua.activitys = list()
+            ua.classrooms = list()
+            ua.teachers = list()
+            ua.groups = list()
+
+            stepC = re.findall(r'<aclass=".*?"href="\?(.*?)=(.*?)">.*?</a><br/>', b[4])
+            for c in stepC:
+                if c[0] == 'activity':
+                    ua.activitys.append(c[1])
+                elif c[0] == 'classroom':
+                    ua.classrooms.append(c[1])
+                elif c[0] == 'teacher':
+                    ua.teachers.append(c[1])
+                elif c[0] == 'group':
+                    ua.groups.append(c[1])
+
+            uaList.append(ua)
+
+    return uaList
+
+class UrnikActivity:
+    day = ''
+    time = ''
+    duration = 0
+    type = ''
+    subjectId = ''
+    activitys = list()
+    classrooms = list()
+    teachers = list()
+    groups = list()
+
+    def __str__(self):
+        res = 'Day: ' + self.day + '\n'
+        res += 'Time: ' + self.time + '\n'
+        res += 'Duration: ' + self.duration + ' Hour(s)\n'
+        res += 'Type: ' + self.type + '\n'
+        res += 'SubjectId: ' + self.subjectId + '\n'
+
+        res += 'Activitys:'
+        for a in self.activitys:
+            res += '\n    ' + a
+
+        res += '\nClassrooms:'
+        for c in self.classrooms:
+            res += '\n    ' + c
+
+        res += '\nTeachers:'
+        for t in self.teachers:
+            res += '\n    ' + t
+
+        res += '\nGroups:'
+        for g in self.groups:
+            res += '\n    ' + g
+
+        return res + '\n'
