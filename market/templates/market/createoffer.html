@@ -1,0 +1,18 @@
+<p>Vpisna številka: {{ id }}</p>
+<p>Predmet: {{ subject }}</p>
+<p>Trenutni termin vaj:<br>{{ day }}, {{ offered_class.time }}<br>{{ classroom }}<br>{{ teacher }}</p>
+<label>Menjam za:</label>
+<form action="{% url 'market:migrateOffer' %}" method="post">
+    {% csrf_token %}
+    {% for l in labs %}
+        <input  type="checkbox" name="choice" id="choice" value="{{ l.day }}, {{ l.time }}">{{ l.day }}, {{ l.time }}<br>
+    {% endfor %}
+    <br>
+    <input type="submit" value="Potrdi" />
+</form>
+
+<br>
+<a href="https://urnik.fri.uni-lj.si/timetable/fri-2016_2017-zimski-drugi-teden/allocations?student={{ id }}">Moj urnik</a>
+
+<br>
+<a href="{% url 'market:makeoffer' %}">Nazaj</a>

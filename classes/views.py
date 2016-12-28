@@ -152,6 +152,43 @@ def parseUrnikVpisna(studentId):
 
     return uaList
 
+def parseUrnikPredmet(activityId):
+    uaList = list()
+    urnikName = Urnik.objects.all()[0].urnik_name
+    urnikUrl = 'https://urnik.fri.uni-lj.si/timetable/' + urnikName + '/allocations?activity=' + activityId
+    response = requests.get(urnikUrl)
+    content = response.content.replace('\n', '').replace('\r', '').replace(' ', '')
+
+    stepA = re.findall(r'<trclass="timetable"><tdclass="hour">(.*?)</td>(.*?)</tr>', content)
+    for a in stepA:
+        stepB = re.findall(r'<tdclass="(.*?)allocated(.*?)"colspan=1rowspan=(\d{1})><div><span>.*?\(.*?\).*?\((.*?)\).*?</span>(.*?)</div></td>', a[1])
+        for b in stepB:
+            ua = UrnikActivity()
+            ua.time = a[0]
+            ua.day = b[0]
+            ua.duration = b[2]
+            ua.type = b[1]
+            ua.subjectId = b[3]
+            ua.activitys = list()
+            ua.classrooms = list()
+            ua.teachers = list()
+            ua.groups = list()
+
+            stepC = re.findall(r'<aclass=".*?"href="\?(.*?)=(.*?)">.*?</a><br/>', b[4])
+            for c in stepC:
+                if c[0] == 'activity':
+                    ua.activitys.append(c[1])
+                elif c[0] == 'classroom':
+                    ua.classrooms.append(c[1])
+                elif c[0] == 'teacher':
+                    ua.teachers.append(c[1])
+                elif c[0] == 'group':
+                    ua.groups.append(c[1])
+
+            uaList.append(ua)
+
+    return uaList
+
 class UrnikActivity:
     day = ''
     time = ''

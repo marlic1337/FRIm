@@ -1,0 +1,6 @@
+<p>Izberi predmet:</p>
+<ul>
+    {% for class in subjects %}
+        <li><a href="{% url 'market:createoffer' class.predmet_id %}">{{ class.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
