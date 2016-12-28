@@ -1,9 +1,0 @@
-<h3>Moje ponudbe</h3>
-
-{% for o in offers %}
-    <label>Ponudba {{ o.id }}</label><br>
-    <label>Vpisna številka: {{ o.student_id }}</label><br>
-    <label>Predmet: {{ o.subject }}</label>
-    <label>Ponujen termin: {{ o.student_offer }}</label><br>
-    <br>
-{% endfor %}
