@@ -1,0 +1,11 @@
+<h3>Moje ponudbe</h3>
+
+{% for o in offers %}
+    <label>Ponudba {{ o.id }}</label><br>
+    <label>Vpisna številka: {{ o.studentId }}</label><br>
+    <label>Predmet: {{ o.studentSubject }}</label><br>
+    <label>Ponujen termin: {{ o.studentOffer }}</label><br>
+    <br>
+{% endfor %}
+<br>
+<a href="{% url 'trznica:index' %}">Nazaj</a>

@@ -1,0 +1,9 @@
+<p>Izberi predmet:</p>
+<ul>
+    {% for class in subjects %}
+        <li><a href="{% url 'trznica:createoffer' class.predmet_id %}">{{ class.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
+
+<br>
+<a href="{% url 'trznica:index' %}">Nazaj</a>
