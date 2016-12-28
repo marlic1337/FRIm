@@ -1,0 +1,19 @@
+<form action="{% url 'trznica:migrateOffer' %}" method="post">
+    {% csrf_token %}
+
+    <p>Vpisna številka: {{ id }}</p>
+    <p name="sub" value="{{ subject }}">Predmet: {{ subject }}</p>
+    <p>Trenutni termin vaj:<br>{{ offered_class.day }}, {{ offered_class.time }}<br>{{ classroom }}<br>{{ teacher }}</p>
+    <label>Menjam za:</label><br>
+    {% for l in labs %}
+        <input  type="checkbox" name="choice" value="{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}">{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}<br>
+    {% endfor %}
+    <br>
+    <input type="submit" value="Potrdi" />
+</form>
+
+<br>
+<a href="https://urnik.fri.uni-lj.si/timetable/fri-2016_2017-zimski-drugi-teden/allocations?student={{ id }}">Moj urnik</a>
+
+<br>
+<a href="{% url 'trznica:makeoffer' %}">Nazaj</a>
