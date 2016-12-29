@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'forum',
     'login.apps.LoginConfig',
     'django_cleanup',
-    'market.apps.MarketConfig',
+    'trznica.apps.TrznicaConfig',
 ]
 
 MIDDLEWARE = [

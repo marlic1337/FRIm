@@ -23,5 +23,5 @@ urlpatterns = [
 	url(r'^classes/', include('classes.urls')),
     #url(r'^login/', include('login.urls')),
     url(r'^forum/',include('forum.urls')),
-    url(r'^market/', include('market.urls')),
+    url(r'^trznica/', include('trznica.urls')),
 ]
