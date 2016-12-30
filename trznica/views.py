@@ -10,14 +10,12 @@ from .models import PonudbaStudenta
 
 
 def index(request):
-    context = {
-        'options': ['Ponudbe', 'Moje ponudbe']
-    }
+    context = { }
 
     return render(request, 'trznica/index.html', context)
 
 def makeoffer(request):
-    urnik = parseUrnikVpisna('63140267')
+    urnik = parseUrnikVpisna(User.objects.get(pk=1).studentId)
 
     subjects = list()
     for u in urnik:
@@ -32,7 +30,7 @@ def makeoffer(request):
 
 
 def createoffer(request, subjectId):
-    id = User.objects.get(pk=1).studentId
+    user = User.objects.get(pk=1)
     subject = Predmet.objects.get(predmet_id=subjectId).predmet_name
     days = {
         'MON': 'ponedeljek',
@@ -42,7 +40,7 @@ def createoffer(request, subjectId):
         'FRI': 'petek',
     }
 
-    urnik = parseUrnikVpisna(id)
+    urnik = parseUrnikVpisna(user.studentId)
     for u in urnik:
         if u.subjectId == subjectId and u.type == 'LV':
             offered_class = u
@@ -62,19 +60,20 @@ def createoffer(request, subjectId):
             labs_list.append(l)
 
     context = {
-        'id': id,
+        'id': user.studentId,
         'subject': subject,
         'offered_class': offered_class,
         'classroom': classroom,
         'teacher': teacher,
         'labs': labs_list,
+        'labsListLength': len(labs_list)
     }
 
     return render(request, 'trznica/createoffer.html', context)
 
 def myoffers(request):
-    id = User.objects.get(pk=1).studentId
-    offers = PonudbaStudenta.objects.all()
+    user = User.objects.get(pk=1)
+    offers = user.ponudbastudenta_set.all()
 
     context = {
         'offers': offers
@@ -84,10 +83,14 @@ def myoffers(request):
 
 
 def migrateOffer(request):
-    id = User.objects.get(pk=1).studentId
-    try:
+    user = User.objects.get(pk=1)
+    offeredClass = request.POST['classInfo']
+    subject = request.POST['subject']
+    wish = request.POST['choice']
+
+    """try:
         offer = request.POST['choice']
-        subject = request.POST['sub']
+        subject = request.POST['subject']
     except KeyError:
         return render(request, 'trznica/makeoffer.html', {'subjects': None})
     else:
@@ -95,8 +98,28 @@ def migrateOffer(request):
         ponudba.save()
 
         context = {}
-        return render(request, 'trznica/offercreated.html', context)
+        return render(request, 'trznica/offercreated.html', context)"""
 
+    user.ponudbastudenta_set.create(studentSubject=subject, studentOffer=offeredClass, studentWish=wish)
 
-
+    context = {}
+    return render(request, 'trznica/offercreated.html', context)
     #return HttpResponseRedirect(reverse('trznica:myoffers', args=()))
+
+def alloffers(request):
+    user = User.objects.get(pk=1)
+    offers = PonudbaStudenta.objects.exclude(user=user)
+    #offers = PonudbaStudenta.objects.all()
+
+    context = {
+        'offers': offers
+    }
+
+    return render(request, 'trznica/alloffers.html', context)
+
+def offeraccepted(request):
+    PonudbaStudenta.objects.get(pk=request.POST['offer']).delete()
+
+    context = {}
+
+    return render(request, 'trznica/offeraccepted.html', context)

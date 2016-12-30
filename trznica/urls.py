@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^makeoffer/(?P<subjectId>[0-9a-zA-Z]+)/$', views.createoffer, name='createoffer',),
     url(r'^myoffers/$', views.myoffers, name='myoffers'),
     url(r'^offercreated/$', views.migrateOffer, name='migrateOffer'),
+    url(r'^alloffers/$', views.alloffers, name='alloffers'),
+    url(r'^alloffers/offeraccepted/$', views.offeraccepted, name='offeraccepted'),
 ]
