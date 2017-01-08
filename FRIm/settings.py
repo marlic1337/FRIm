@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'FRIm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'frimtmpdb',
+        'NAME': 'frimdb',
         'USER': 'userfrim',
         'PASSWORD': 'frim123',
         'HOST': 'localhost',
