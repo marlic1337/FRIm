@@ -1,0 +1,28 @@
+<h1>{{ urnik_name }}</h1>
+<h2>Moj urnik</h2>
+<ul>{{ myUrnik }}</ul>
+
+<h2>Predmeti</h2>
+<ul>
+    {% for cls in all_classes %}
+    <li><a href="https://urnik.fri.uni-lj.si/timetable/{{ urnik_name }}/allocations?subject={{ cls.predmet_id }}">{{ cls.predmet_id }} - {{ cls.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
+<h2>Profesorji</h2>
+<ul>
+    {% for teacher in all_teachers %}
+    <li><a href="https://urnik.fri.uni-lj.si/timetable/{{ urnik_name }}/allocations?teacher={{ teacher.profesor_id }}">{{ teacher.profesor_name }}</a></li>
+    {% endfor %}
+</ul>
+<h2>Skupine</h2>
+<ul>
+    {% for group in all_groups %}
+    <li><a href="https://urnik.fri.uni-lj.si/timetable/{{ urnik_name }}/allocations?group={{ group.skupina_id }}">{{ group.skupina_name }}</a></li>
+    {% endfor %}
+</ul>
+<h2>Prostori</h2>
+<ul>
+    {% for classroom in all_classrooms %}
+    <li><a href="https://urnik.fri.uni-lj.si/timetable/{{ urnik_name }}/allocations?classroom={{ classroom.prostor_id }}">{{ classroom.prostor_name }}</a></li>
+    {% endfor %}
+</ul>
