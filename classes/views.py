@@ -36,7 +36,7 @@ def index(request):
         'all_teachers': Profesor.objects.all(),
         'all_classrooms': Prostor.objects.all(),
         'all_groups': Skupina.objects.all(),
-        #'urnik_name': Urnik.objects.all()[0],
+        'urnik_name': Urnik.objects.all()[0],
     }
 
     return HttpResponse(template.render(context, request))
@@ -127,11 +127,13 @@ def parseUrnikVpisna(studentId):
 
     stepA = re.findall(r'<trclass="timetable"><tdclass="hour">(.*?)</td>(.*?)</tr>', content)
     for a in stepA:
-        stepB = re.findall(r'<tdclass="(.*?)allocated(.*?)"colspan=1rowspan=(\d{1})><div><span>.*?\(.*?\).*?\((.*?)\).*?</span>(.*?)</div></td>', a[1])
+        if '<span>' not in a[1]:
+            continue
+        stepB = re.findall(r'<tdclass="(.*?)allocated(.*?)"colspan=.*?rowspan=(\d)><div><span>.*?\(.*?\).*?\((.*?)\).*?</span>(.*?)</div></td>', a[1])
         for b in stepB:
             ua = UrnikActivity()
             ua.time = a[0]
-            ua.day = b[0]
+            ua.day = b[0][len(b[0])-3:len(b[0])]
             ua.duration = b[2]
             ua.type = b[1]
             ua.subjectId = b[3]
