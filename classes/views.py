@@ -127,8 +127,6 @@ def parseUrnikVpisna(studentId):
 
     stepA = re.findall(r'<trclass="timetable"><tdclass="hour">(.*?)</td>(.*?)</tr>', content)
     for a in stepA:
-        if '<span>' not in a[1]:
-            continue
         stepB = re.findall(r'<tdclass="(.*?)allocated(.*?)"colspan=.*?rowspan=(\d)><div><span>.*?\(.*?\).*?\((.*?)\).*?</span>(.*?)</div></td>', a[1])
         for b in stepB:
             ua = UrnikActivity()
