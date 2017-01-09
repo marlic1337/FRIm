@@ -24,7 +24,6 @@ def login(request):
     if user is None:
         return render(request, 'login/loginFailed.html')
 
-
     if next:
         return HttpResponseRedirect(next)
 
