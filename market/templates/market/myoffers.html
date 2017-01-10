@@ -1,0 +1,11 @@
+<h2>Moje ponudbe</h2>
+
+{% for o in offers %}
+    <label><b>Vpisna številka:</b> {{ o.user.studentId }}</label><br>
+    <label><b>Predmet:</b> {{ o.studentSubject }}</label><br>
+    <label><b>Trenutni termin:</b> {{ o.studentOffer }}</label><br>
+    <label><b>Menjam za:</b> {{ o.studentWish }}</label><br>
+    <br>
+{% endfor %}
+<br>
+<a href="{% url 'market:index' %}">Nazaj</a>
