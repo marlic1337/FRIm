@@ -27,7 +27,7 @@ class Forum(models.Model):
                 l = t.last_post()
                 if l:
                     if not last: last = l
-                    elif l.created > last.created: last=l
+                    elif l.time > last.time: last=l
             return last
 
 
@@ -69,6 +69,11 @@ class Post(models.Model):
     def short(self):
         return u"%s - %s\n %s " % (self.created_by, self.title, self.time.strftime("%b %d, %I:%M %p"))
     short.allow_tags = True
+
+    def slika(self):
+        s = self.created_by.logo_url()
+        return s
+
 
 
 ##Admin

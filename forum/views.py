@@ -33,7 +33,7 @@ def forum(request,pk=1):
 
 def subforum(request,pk=1):
     threads = Thread.objects.filter(forum=pk).order_by("time")
-    threads = make_paginator(request,threads,20)
+    threads = make_paginator(request,threads,15)
     return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk})
 
 
@@ -53,13 +53,12 @@ def postForm(request,ptype,id=1):
     return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id})})
 
 def new_thread(request,id):
-    print("Vstavljam vrednosti v tabelo\n")
     p = request.POST
     if p["body"]:
         forum = Forum.objects.get(id=id)
-        thread = Thread.objects.create(thread=forum,title=p["subject"],created_by = request.user)
+        thread = Thread.objects.create(forum=forum,title=p["subject"],created_by = request.user)
         Post.objects.create(thread=thread,title=p["subject"],body = p["body"],created_by = request.user)
-    return HttpResponseRedirect(reverse('forum',kwargs={'pk':id}))
+    return HttpResponseRedirect(reverse('subforum',kwargs={'pk':id}))
 
 def reply(request,id):
     print("Vstavljam vrednosti v tabelo2\n")

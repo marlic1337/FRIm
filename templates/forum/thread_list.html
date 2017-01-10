@@ -1,4 +1,4 @@
-{% extends "forum/header.html" %}
+{% extends "base.html" %}
 
 
 {% block content  %}
@@ -52,7 +52,7 @@
     {% if subforum.object_list and subforum.paginator.num_pages > 1 %}
     <div class="pagination">
     <span class="step-links">
-        {% if thread.has_previous %}
+        {% if subforum.has_previous %}
         <a href="?page={{ subforum.previous_page_number }}">Previous</a>
         {% endif %}
     <span class="current">
