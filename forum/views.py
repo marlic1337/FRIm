@@ -32,7 +32,7 @@ def forum(request,pk=1):
 
 
 def subforum(request,pk=1):
-    threads = Thread.objects.filter(forum=pk).order_by("time")
+    threads = Thread.objects.filter(forum=pk).order_by("-time")
     threads = make_paginator(request,threads,15)
     return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk})
 
@@ -45,10 +45,10 @@ def thread(request,pk=1):
 
 def postForm(request,ptype,id=1):
     if ptype == "new_thread":
-        title = "Start new Topic"
+        title = "Nova Tema"
         subject = ""
     elif ptype == "reply":
-        title = "Reply"
+        title = "Odgovor"
         subject = "Re: " + Thread.objects.get(id=id).title
     return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id})})
 
@@ -61,8 +61,6 @@ def new_thread(request,id):
     return HttpResponseRedirect(reverse('subforum',kwargs={'pk':id}))
 
 def reply(request,id):
-    print("Vstavljam vrednosti v tabelo2\n")
-
     p = request.POST
     if p["body"]:
         thread = Thread.objects.get(id=id)

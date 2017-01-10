@@ -9,8 +9,8 @@
 <thead>
     <tr>
        <th class="cell-stat text-center hidden-xs hidden-sm"> Forum </th>
-       <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
-       <th class="cell-stat text-center hidden-xs hidden-sm">Last post</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Sporocil</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Zadnje sporocilo</th>
        <th></th>
 
     </tr>
@@ -21,7 +21,7 @@
             <td {% if forloop.last %}class="last"{% endif %}>
                <h4><div class="title text-center hidden-xs hidden-sm"> <a href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
 
-                </div>
+
             </td>
 
             <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
@@ -41,6 +41,7 @@
 
     {% endfor %}
 </tbody>
+</table>
 </div>
 
 

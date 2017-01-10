@@ -4,18 +4,22 @@
 {% block content  %}
 
 <!-- Threads -->
-    <a id="new_topic" class="button" href=" {% url 'post' ptype="new_thread" id=pk %}   "> Nova Tema</a>
-    <br />
-    <br />
 
+    <div class="row">
+    <div class="col-sm-12 ">
+            <a id="new_topic" class="btn btn-default pull-left" href=" /forum   "> Nazaj</a>
 
-<div id="list">
-<table border="0" cellpadding="4" width="100%" class="forum table-striped">
+    <a id="new_topic" class="btn btn-default pull-right" href=" {% url 'post' ptype="new_thread" id=pk %}   "> Nova Tema</a>
+    </div>
+    </div>
+
+<div class="row">
+<table border="0" cellpadding="4" width="100%" class="table-striped">
 <thead>
     <tr>
-       <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
-       <th class="cell-stat text-center hidden-xs hidden-sm">Replies</th>
-       <th class="cell-stat text-center hidden-xs hidden-sm">Last post</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Tema</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Odgovorov</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Zadnji odgovor</th>
        <th></th>
     </tr>
 </thead>
@@ -37,7 +41,7 @@
 
              <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
 
-                 <a class="button" href="{% url 'subforum' thread.id %}">VIEW</a>
+                 <a class="btn btn-default" href="{% url 'thread' thread.id %}">Ogled</a>
 
              </td>
 
@@ -45,25 +49,34 @@
 
     {% endfor %}
 </tbody>
+    </table>
+
 </div>
 
-    <!--Page Links- -->
+
+            <!--Page Links- -->
 
     {% if subforum.object_list and subforum.paginator.num_pages > 1 %}
+        <div class="row">
+        <div class="col-sm-6 col-sm-offset-4">
     <div class="pagination">
     <span class="step-links">
         {% if subforum.has_previous %}
-        <a href="?page={{ subforum.previous_page_number }}">Previous</a>
+        <a href="?page={{ subforum.previous_page_number }}" class="btn btn-default">Prejšnja Stran</a>
         {% endif %}
+
     <span class="current">
-        Page {{ subforum.number }} of {{ subforum.paginator.num_pages }}
+        Stran {{ subforum.number }} od {{ subforum.paginator.num_pages }}
     </span>
 
     {% if subforum.has_next %}
-        <a href="?page={{ subforum.next_page_number }}">Previous</a>
+        <a href="?page={{ subforum.next_page_number }}" class="btn btn-default">Naslednja Stran</a>
     {% endif %}
     </span>
+
     </div>
+        </div>
+        </div>
     {% endif %}
 
 
