@@ -7,7 +7,11 @@ from .models import Skupina
 from .models import Urnik
 import requests
 import re
+import operator
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib.auth import logout as logout_user
 
 @login_required
 def index(request):
@@ -26,20 +30,35 @@ def index(request):
     #    'all_mag': all_mag,
     #}
 
+
     res = ''
     for u in urnik:
         res += str(u) + '\n'
 
+    sorted_urnik = sorted(urnik, key=operator.attrgetter('ind'))
+
+    days_with_cls = []
+    for cls in urnik:
+        days_with_cls.append(cls.day)
+
     context = {
         'myUrnik': res.replace('\n', ' - '),
+        'my_timetable' : sorted_urnik,
         'all_classes': Predmet.objects.all(),
         'all_teachers': Profesor.objects.all(),
         'all_classrooms': Prostor.objects.all(),
         'all_groups': Skupina.objects.all(),
         'urnik_name': Urnik.objects.all()[0],
+        'user': request.user,
+        'days_with_cls': days_with_cls,
     }
-
+    #return render(request, 'classes/index.html', context)
     return HttpResponse(template.render(context, request))
+
+def logout(request):
+    logout_user(request)
+    return HttpResponseRedirect('/')
+
 
 def parseUrnik():
     urnikUrl = 'https://urnik.fri.uni-lj.si/'
@@ -140,6 +159,17 @@ def parseUrnikVpisna(studentId):
             ua.teachers = list()
             ua.groups = list()
 
+            if ua.day == 'MON':
+                ua.ind = 1
+            elif ua.day == 'TUE':
+                ua.ind = 2
+            elif ua.day == 'WED':
+                ua.ind = 3
+            elif ua.day == 'THU':
+                ua.ind = 4
+            elif ua.day == 'FRI':
+                ua.ind = 5
+
             stepC = re.findall(r'<aclass=".*?"href="\?(.*?)=(.*?)">.*?</a><br/>', b[4])
             for c in stepC:
                 if c[0] == 'activity':
@@ -177,6 +207,8 @@ def parseUrnikPredmet(activityId):
             ua.teachers = list()
             ua.groups = list()
 
+
+
             stepC = re.findall(r'<aclass=".*?"href="\?(.*?)=(.*?)">.*?</a><br/>', b[4])
             for c in stepC:
                 if c[0] == 'activity':
@@ -202,28 +234,34 @@ class UrnikActivity:
     classrooms = list()
     teachers = list()
     groups = list()
+    ind = 0
 
     def __str__(self):
-        res = 'Day: ' + self.day + '\n'
-        res += 'Time: ' + self.time + '\n'
-        res += 'Duration: ' + self.duration + ' Hour(s)\n'
-        res += 'Type: ' + self.type + '\n'
-        res += 'SubjectId: ' + self.subjectId + '\n'
+        res = ''
+        #res = 'Day: ' + self.day + '\n'
+        res += self.time + '\n'
+        res += 'Trajanje: ' + self.duration + ' Hour(s)\n'
+        res += 'Tip: ' + self.type + '\n'
 
-        res += 'Activitys:'
-        for a in self.activitys:
-            res += '\n    ' + a
+        subject = Predmet.objects.get(predmet_id = self.subjectId).predmet_name
+        res += 'Predmet: ' + subject.encode('utf-8') + '\n'
 
-        res += '\nClassrooms:'
+        #res += 'Activitys:'
+        #for a in self.activitys:
+        #    res += '\n    ' + a
+
+        res += '\nUcilnica:'
+
         for c in self.classrooms:
-            res += '\n    ' + c
+            classroom = Prostor.objects.get(prostor_id = c).prostor_name
+            res += '\n    ' + classroom.encode('utf-8')
 
-        res += '\nTeachers:'
-        for t in self.teachers:
-            res += '\n    ' + t
+        #res += '\nTeachers:'
+        #for t in self.teachers:
+        #    res += '\n    ' + t
 
-        res += '\nGroups:'
-        for g in self.groups:
-            res += '\n    ' + g
+        #res += '\nGroups:'
+        #for g in self.groups:
+        #    res += '\n    ' + g
 
         return res + '\n'

@@ -2,6 +2,7 @@ from django import forms
 
 class ChangeUserSettings(forms.Form):
     email = forms.CharField(label='Email za obvescanje', max_length=50)
+    img = forms.ImageField()
 
     # social networks urls
     url_facebook = forms.CharField(max_length=64)

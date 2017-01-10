@@ -9,4 +9,7 @@ def changeUserSettings(request):
     if not request.method == 'POST':
         form = ChangeUserSettings()
         title = 'Uporabniske nastavitve - ' + str(request.user.username)
-        return render(request, 'User/user_settings.html', {'form': form, 'title': title})
+        if request.user.email is 'emtpy@email.com':
+            return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': ''})
+        else:
+            return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': str(request.user.email)})

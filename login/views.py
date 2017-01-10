@@ -20,10 +20,11 @@ def login(request):
     mail = request.POST['mail']
     auth = User.CustomAuth.CustomAuth()
     user = auth.authenticate(username=mail, password=request.POST['password'])
-    authLogin(request, user, 'User.CustomAuth.CustomAuth')
-
     if user is None:
         return render(request, 'login/loginFailed.html')
+    authLogin(request, user, 'User.CustomAuth.CustomAuth')
+
+
 
     if next:
         return HttpResponseRedirect(next)
