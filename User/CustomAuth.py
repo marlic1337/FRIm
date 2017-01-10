@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.utils.encoding import smart_text
 from .models import CustomUser as MyUser
 import re
 import requests
@@ -6,8 +9,8 @@ import uuid
 class CustomAuth(object):
     def authenticate(self, username=None, password=None):
         try:
-            localuser = MyUser.objects.get(username=username, password=password)
-            if localuser.is_superuser:
+            localuser = MyUser.objects.get(username=username)
+            if localuser.check_password(raw_password=password) and localuser.is_superuser:
                 return localuser
         except:
             localuser = None
@@ -34,7 +37,7 @@ class CustomAuth(object):
             response.content)
 
         id = int(profile[0][0])
-        name = profile[0][1].title()
+        name = smart_text(profile[0][1], encoding='utf-8', strings_only=False, errors='strict').title()
 
         # get student id
         editProfileUrl = 'https://ucilnica.fri.uni-lj.si/user/edit.php?id=' + str(id)
@@ -60,7 +63,7 @@ class CustomAuth(object):
         flname = re.findall(r'^(.*?) (.*?)$', name)
         fname = flname[0][0]
         lname = flname[0][1]
-        user = MyUser(username=mail, email='empty@email.com', password=str(uuid.uuid4()), first_name=fname, last_name=lname,
+        user = MyUser(username=mail, email='', password=str(uuid.uuid4()), first_name=fname, last_name=lname,
                       studentId=sid)
         return user.save()
 

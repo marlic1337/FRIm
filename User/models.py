@@ -8,7 +8,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     studentId = models.CharField(max_length=10)
 
-    REQUIRED_FIELDS = ['studentId']
+    REQUIRED_FIELDS = ['email', 'studentId']
 
     logo = models.ImageField(upload_to='profile_pic/', width_field='logo_width', height_field='logo_height', null=True,
                              blank=True)

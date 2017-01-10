@@ -3,53 +3,61 @@
 {% block content %}
 <form action="/user/settings" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  <div style="overflow: auto; position: relative">
+  <div style="overflow: auto; position: relative; padding: 0px">
 
-    <div style="float: left; padding: 20px; padding-top: 0px">
-      <img src="http://lorempixel.com/output/people-q-c-300-300-9.jpg" width="250" height="250">
+    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12" style="padding: 0px">
+      <img src="{{ user.logo }}" height="250px" width="250px">
     </div>
 
-    <div style="float: left; vertical-align: middle;">
+    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12" style="padding: 0px; margin-top: 25px;">
       <div class="form-group">
-        <label for="id_email">Uporabnisko ime</label>
-        <input type="text" class="form-control">
+        <label for="id_username">Uporabnisko ime</label>
+        <input type="text" id="id_username" class="form-control" placeholder="{{ user.username }}" disabled>
       </div>
       <div class="form-group">
-        <label for="id_email">Ime in Priimek</label>
-        <input type="text" class="form-control">
+        <label for="id_name">Ime in Priimek</label>
+        <input type="text" id="id_name" class="form-control" placeholder="{{ user.first_name }} {{ user.last_name }}" disabled>
       </div>
       <div class="form-group">
-        <label for="id_email">Vpisna stevilka</label>
-        <input type="text" class="form-control">
+        <label for="id_studentid">Vpisna stevilka</label>
+        <input type="text" id="id_studentid" class="form-control" placeholder="{{ user.studentId }}" disabled>
       </div>
     </div>
 
+  </div>
+    <div>
+  <div style="padding-top: 2%">
+  <div class="form-group">
+    <label for="id_logo">Profilna slika</label>
+    <input type="file" class="form-control" id="id_logo">
   </div>
   <div class="form-group">
     <label for="id_email">Email za obvescanje</label>
-    <input type="text" class="form-control" id="id_email" maxlength="50" name="email" placeholder="Email">
+    <input type="text" class="form-control" id="id_email" maxlength="50" name="email" placeholder="Email" value="{{ notificationsEmail }}">
   </div>
+  <h2 style="">Socialna omrezja</h2>
   <div class="form-group">
-    <label for="id_email">Facebook</label>
+    <label for="id_url_facebook">Facebook</label>
     <input type="text" class="form-control" id="id_url_facebook" maxlength="64" name="url_facebook" placeholder="https://www.facebook.com/">
   </div>
   <div class="form-group">
-    <label for="id_email">Google+</label>
+    <label for="id_url_googleplus">Google+</label>
     <input type="text" class="form-control" id="id_url_googleplus" maxlength="64" name="url_googleplus" placeholder="https://plus.google.com/">
   </div>
   <div class="form-group">
-    <label for="id_email">Twitter</label>
+    <label for="id_url_twitter">Twitter</label>
     <input type="text" class="form-control" id="id_url_twitter" maxlength="64" name="url_twitter" placeholder="https://twitter.com/">
   </div>
   <div class="form-group">
-    <label for="id_email">LinkedIn</label>
+    <label for="id_url_linkedin">LinkedIn</label>
     <input type="text" class="form-control" id="id_url_linkedin" maxlength="64" name="url_linkedin" placeholder="https://www.linkedin.com/">
   </div>
   <div class="form-group">
-    <label for="id_email">GitHub</label>
+    <label for="id_url_github">GitHub</label>
     <input type="text" class="form-control" id="id_url_github" maxlength="64" name="url_github" placeholder="https://github.com/">
   </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit" style="float: right; width: 100px;">Shrani</button>
+  </div>
 </form>
 {% endblock %}
 
