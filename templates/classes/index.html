@@ -2,9 +2,50 @@
 
 {% block content %}
 
-    <h1>{{ urnik_name }}</h1>
     <h2>Moj urnik</h2>
-    <ul>{{ myUrnik }}</ul>
+    <h5>Verzija urnika: {{ urnik_name }}</h5>
+    <br>
+        {% if 'MON' in days_with_cls %}
+            <h4><strong>PONEDELJEK</strong></h4>
+            {% for cls in my_timetable %}
+                {% if cls.day == 'MON' %}
+                    <ul>{{ cls }}</ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if 'TUE' in days_with_cls %}
+            <h4><strong>TOREK</strong></h4>
+            {% for cls in my_timetable %}
+                {% if cls.day == 'TUE' %}
+                    <ul>{{ cls }}</ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if 'WED' in days_with_cls %}
+            <h4><strong>SREDA</strong></h4>
+            {% for cls in my_timetable %}
+                {% if cls.day == 'WED' %}
+                    <ul>{{ cls }}</ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if 'THU' in days_with_cls %}
+            <h4><strong>ČETRTEK</strong></h4>
+            {% for cls in my_timetable %}
+                {% if cls.day == 'THU' %}
+                    <ul>{{ cls }}</ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if 'FRI' in days_with_cls %}
+            <h4><strong>PETEK</strong></h4>
+            {% for cls in my_timetable %}
+                {% if cls.day == 'FRI' %}
+                    <ul>{{ cls }}</ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    <br>
 
     <h2>Predmeti</h2>
     <ul>
