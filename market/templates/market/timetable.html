@@ -3,6 +3,51 @@
 <p><b>Ponedeljek:</b></p>
 <ul>
     {% for u in urnik %}
-        <li><p>asd</p></li>
+        {% if u.day == 'ponedeljek' %}
+            <li><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}</p></li>
+        {% endif %}
     {% endfor %}
 </ul>
+<br>
+
+<p><b>Torek:</b></p>
+<ul>
+    {% for u in urnik %}
+        {% if u.day == 'torek' %}
+            <li><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<br>
+
+<p><b>Sreda:</b></p>
+<ul>
+    {% for u in urnik %}
+        {% if u.day == 'sreda' %}
+            <li><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<br>
+
+<p><b>Četrtek:</b></p>
+<ul>
+    {% for u in urnik %}
+        {% if u.day == 'cetrtek' %}
+            <li><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<br>
+
+<p><b>Petek:</b></p>
+<ul>
+    {% for u in urnik %}
+        {% if u.day == 'petek' %}
+            <li><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}</p></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<br>
+<br>
+<a href="{% url 'market:index' %}">Nazaj</a>

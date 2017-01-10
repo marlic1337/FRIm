@@ -9,3 +9,4 @@ class PonudbaStudenta(models.Model):
     studentOffer = models.CharField(max_length=100)
     studentWish = models.CharField(max_length=100)
     accepted = models.BooleanField(default=False)
+    acceptedBy = models.CharField(max_length=100)

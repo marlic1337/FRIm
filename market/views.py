@@ -92,7 +92,7 @@ def migrateOffer(request):
         subjectId = Predmet.objects.get(predmet_name=subject).predmet_id
         return render(request, 'market/nochoice.html', {'subjectId':subjectId})
     else:
-        user.ponudbastudenta_set.create(studentSubject=subject, studentOffer=offeredClass, studentWish=wish, accepted=False)
+        user.ponudbastudenta_set.create(studentSubject=subject, studentOffer=offeredClass, studentWish=wish, accepted=False, acceptedBy="0")
 
         context = {}
         return render(request, 'market/offercreated.html', context)
@@ -102,7 +102,7 @@ def migrateOffer(request):
 
 def alloffers(request):
     user = request.user
-    offers = PonudbaStudenta.objects.exclude(user=user)
+    offers = PonudbaStudenta.objects.exclude(user=user, accepted=True)
     #offers = PonudbaStudenta.objects.all()
 
     context = {
@@ -112,7 +112,10 @@ def alloffers(request):
     return render(request, 'market/alloffers.html', context)
 
 def offeraccepted(request):
-    PonudbaStudenta.objects.get(pk=request.POST['offer']).delete()
+    offer = PonudbaStudenta.objects.get(pk=request.POST['offer'])
+    offer.accepted = True
+    offer.acceptedBy = request.user.studentId
+    offer.save()
 
     context = {}
 
@@ -125,14 +128,28 @@ def timetable(request):
     user = request.user
     urnik = parseUrnikVpisna(user.studentId)
 
-    days = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+    days = {
+        'MON': 'ponedeljek',
+        'TUE': 'torek',
+        'WED': 'sreda',
+        'THU': 'cetrtek',
+        'FRI': 'petek',
+    }
 
-    for day in days:
-        for u in urnik:
-            if u.day == day:
-                pass
+    type = {
+        'P': 'predavanje',
+        'LV': 'laboratorijske vaje',
+    }
+
+    for u in urnik:
+        u.day = days[u.day]
+        u.subjectId = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
+        u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
+        u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+        u.type = type[u.type]
+
 
     context = {
-        'timetable': urnik
+        'urnik': urnik
     }
     return render(request, 'market/timetable.html', context)
