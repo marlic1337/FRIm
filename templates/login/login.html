@@ -6,9 +6,9 @@
 </head>
 <body>
         {% if next %}
-        <form action="/login/?next={{next}}" method="post" enctype="multipart/form-data">
+        <form action="/login?next={{next}}" method="post" enctype="multipart/form-data">
         {%else%}
-        <form action="/login/" method="post" >
+        <form action="/login" method="post" >
         {% endif %}
             {% csrf_token %}
             <p>Prijava</p>

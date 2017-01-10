@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^', include('home.urls')),
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^classes/', include('classes.urls')),
     url(r'^forum/', include('forum.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
