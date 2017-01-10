@@ -8,9 +8,9 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     studentId = models.CharField(max_length=10)
 
-    REQUIRED_FIELDS = ['studentId']
+    REQUIRED_FIELDS = ['email', 'studentId']
 
-    logo = models.ImageField(upload_to='profile_pic/', width_field='logo_width', height_field='logo_height', null=True,
+    logo = models.ImageField(upload_to='static/profile_pic', width_field='logo_width', height_field='logo_height', null=True,
                              blank=True)
     logo_width = models.PositiveIntegerField(null=True)
     logo_height = models.PositiveIntegerField(null=True)
@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     def logo_url(self):
         if self.logo:
             return self.logo.url
-        return settings.STATIC_URL + 'profile_pic/default_user.png'
+        return settings.STATIC_URL + 'static/profile_pic/default_user.png'
 
 class SocialNetworks(models.Model):
     user = models.OneToOneField(CustomUser, primary_key=True)
