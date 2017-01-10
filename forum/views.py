@@ -28,20 +28,20 @@ def index(request):
 def forum(request,pk=1):
     forums = Forum.objects.filter(forum=pk).order_by("-time")
     forums = make_paginator(request,forums,20)
-    return render(request,'forum/forums.html',{"forums" : forums,"pk" : pk})
+    return render(request, 'forum/forums.html', {"forums" : forums, "pk" : pk})
 
 
 def subforum(request,pk=1):
     threads = Thread.objects.filter(forum=pk).order_by("time")
     threads = make_paginator(request,threads,20)
-    return render(request,'forum/thread_list.html',{"subforum" : threads,"pk" : pk})
+    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk})
 
 
 def thread(request,pk=1):
     posts = Post.objects.filter(thread=pk).order_by("time")
     posts = make_paginator(request,posts,15)
     title = Thread.objects.get(id=pk).title
-    return render(request,'forum/post_list.html',{"posts" : posts,"pk" : pk, "title" : title})
+    return render(request, 'forum/post_list.html', {"posts" : posts, "pk" : pk, "title" : title})
 
 def postForm(request,ptype,id=1):
     if ptype == "new_thread":
@@ -50,7 +50,7 @@ def postForm(request,ptype,id=1):
     elif ptype == "reply":
         title = "Reply"
         subject = "Re: " + Thread.objects.get(id=id).title
-    return render(request,"forum/post.html", { "title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id})})
+    return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id})})
 
 def new_thread(request,id):
     print("Vstavljam vrednosti v tabelo\n")

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/user/settings" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div style="overflow: auto; position: relative">
+
+    <div style="float: left; padding: 20px; padding-top: 0px">
+      <img src="http://lorempixel.com/output/people-q-c-300-300-9.jpg" width="250" height="250">
+    </div>
+
+    <div style="float: left; vertical-align: middle;">
+      <div class="form-group">
+        <label for="id_email">Uporabnisko ime</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="id_email">Ime in Priimek</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="id_email">Vpisna stevilka</label>
+        <input type="text" class="form-control">
+      </div>
+    </div>
+
+  </div>
+  <div class="form-group">
+    <label for="id_email">Email za obvescanje</label>
+    <input type="text" class="form-control" id="id_email" maxlength="50" name="email" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="id_email">Facebook</label>
+    <input type="text" class="form-control" id="id_url_facebook" maxlength="64" name="url_facebook" placeholder="https://www.facebook.com/">
+  </div>
+  <div class="form-group">
+    <label for="id_email">Google+</label>
+    <input type="text" class="form-control" id="id_url_googleplus" maxlength="64" name="url_googleplus" placeholder="https://plus.google.com/">
+  </div>
+  <div class="form-group">
+    <label for="id_email">Twitter</label>
+    <input type="text" class="form-control" id="id_url_twitter" maxlength="64" name="url_twitter" placeholder="https://twitter.com/">
+  </div>
+  <div class="form-group">
+    <label for="id_email">LinkedIn</label>
+    <input type="text" class="form-control" id="id_url_linkedin" maxlength="64" name="url_linkedin" placeholder="https://www.linkedin.com/">
+  </div>
+  <div class="form-group">
+    <label for="id_email">GitHub</label>
+    <input type="text" class="form-control" id="id_url_github" maxlength="64" name="url_github" placeholder="https://github.com/">
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" style="float: right; width: 100px;">Shrani</button>
+</form>
+{% endblock %}
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Uporabniske nastavitve - {{ user.username }}</title>
+    </head>
+    <body>
+        <a href="">Nazaj na seznam</a>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Prenesi datoteko:</p>
+            <p>{{ form.non_field_errors }}</p>
+            <p>Ime
+                {{ form.email }}
+                {{ form.url_facebook }}
+                {{ form.url_googleplus }}
+                {{ form.url_twitter }}
+                {{ form.url_linkedin }}
+                {{ form.url_github }}
+                {{ form.reset_user_data }}
+                {{ form.reset_user_data }}
+            </p>
+            <p><input type="submit" value="Prenesi" /></p>
+        </form>
+    </body>
+</html>
