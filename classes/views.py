@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.template import loader
 from .models import Predmet
@@ -5,6 +6,7 @@ from .models import Profesor
 from .models import Prostor
 from .models import Skupina
 from .models import Urnik
+from market.models import PonudbaStudenta
 import requests
 import re
 import operator
@@ -18,42 +20,59 @@ def index(request):
     parseUrnik()
 
     urnik = parseUrnikVpisna(request.user.studentId)
-    #all_classes = Predmet.objects.all()
-    #all_uni = Predmet.objects.all().filter(predmet_category="UNI")
-    #all_vss = Predmet.objects.all().filter(predmet_category="VSS")
-    #all_mag = Predmet.objects.all().filter(predmet_category="MAG")
+
+    # probably not working
+    #for i in range (len(urnik)):
+    #    try:
+    #        if PonudbaStudenta.objects.get(pk=request.user.studentId).studentSubject == urnik[i].subjectId:
+    #            if PonudbaStudenta.objects.get(pk=request.user.studentId).accepted:
+    #                urnik[i] = PonudbaStudenta.objects.get(user=request.user.studentId).studentWish
+    #    except ObjectDoesNotExist:
+    #        continue
+
+
     template = loader.get_template('classes/index.html')
-    #context = {
-    #    'all_classes': all_classes,
-    #    'all_uni': all_uni,
-    #    'all_vss': all_vss,
-    #    'all_mag': all_mag,
-    #}
 
+    all_classes = []
+    all_cls = Predmet.objects.all()
+    for cls in all_cls:
+        all_classes.append(cls)
+    all_classes_sorted = sorted(all_classes, key=operator.attrgetter('predmet_name'))
 
-    res = ''
+    days = {
+        'MON': 'ponedeljek',
+        'TUE': 'torek',
+        'WED': 'sreda',
+        'THU': 'cetrtek',
+        'FRI': 'petek',
+    }
+
+    type = {
+        'P': 'predavanje',
+        'LV': 'laboratorijske vaje',
+    }
+
     for u in urnik:
-        res += str(u) + '\n'
+        u.day = days[u.day]
+        u.subjectId = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
+        u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
+        #u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+        u.type = type[u.type]
 
-    sorted_urnik = sorted(urnik, key=operator.attrgetter('ind'))
-
-    days_with_cls = []
-    for cls in urnik:
-        days_with_cls.append(cls.day)
 
     context = {
-        'myUrnik': res.replace('\n', ' - '),
-        'my_timetable' : sorted_urnik,
-        'all_classes': Predmet.objects.all(),
+        'urnik': urnik,
+        'all_classes': all_classes_sorted,
         'all_teachers': Profesor.objects.all(),
         'all_classrooms': Prostor.objects.all(),
         'all_groups': Skupina.objects.all(),
         'urnik_name': Urnik.objects.all()[0],
         'user': request.user,
-        'days_with_cls': days_with_cls,
+        'title': 'FRIm Moj Urnik',
     }
     #return render(request, 'classes/index.html', context)
     return HttpResponse(template.render(context, request))
+
 
 def logout(request):
     logout_user(request)
@@ -185,6 +204,7 @@ def parseUrnikVpisna(studentId):
 
     return uaList
 
+
 def parseUrnikPredmet(activityId):
     uaList = list()
     urnikName = Urnik.objects.all()[0].urnik_name
@@ -207,8 +227,6 @@ def parseUrnikPredmet(activityId):
             ua.teachers = list()
             ua.groups = list()
 
-
-
             stepC = re.findall(r'<aclass=".*?"href="\?(.*?)=(.*?)">.*?</a><br/>', b[4])
             for c in stepC:
                 if c[0] == 'activity':
@@ -224,6 +242,7 @@ def parseUrnikPredmet(activityId):
 
     return uaList
 
+
 class UrnikActivity:
     day = ''
     time = ''
@@ -235,33 +254,3 @@ class UrnikActivity:
     teachers = list()
     groups = list()
     ind = 0
-
-    def __str__(self):
-        res = ''
-        #res = 'Day: ' + self.day + '\n'
-        res += self.time + '\n'
-        res += 'Trajanje: ' + self.duration + ' Hour(s)\n'
-        res += 'Tip: ' + self.type + '\n'
-
-        subject = Predmet.objects.get(predmet_id = self.subjectId).predmet_name
-        res += 'Predmet: ' + subject.encode('utf-8') + '\n'
-
-        #res += 'Activitys:'
-        #for a in self.activitys:
-        #    res += '\n    ' + a
-
-        res += '\nUcilnica:'
-
-        for c in self.classrooms:
-            classroom = Prostor.objects.get(prostor_id = c).prostor_name
-            res += '\n    ' + classroom.encode('utf-8')
-
-        #res += '\nTeachers:'
-        #for t in self.teachers:
-        #    res += '\n    ' + t
-
-        #res += '\nGroups:'
-        #for g in self.groups:
-        #    res += '\n    ' + g
-
-        return res + '\n'
