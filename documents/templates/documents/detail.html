@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Informacije o datoteki</title>   
+    </head>
+    <body>
+    <a href="{% url 'documents:list' %}">Nazaj na seznam</a>
+    <p>{{ document.title }}</p>
+    <p>{{ document.description }}</p>
+
+    <a href="{% url 'documents:download' document.id %}">Download</a>
+    <a href="{% url 'documents:update' document.id %}">Update</a>
+    <a href="{% url 'documents:delete' document.id %}">Delete</a>
+    </body>
+</html>

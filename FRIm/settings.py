@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'User.apps.UserConfig',
     'login.apps.LoginConfig',
     'home.apps.HomeConfig',
+    'documents.apps.DocumentsConfig',
     'classes.apps.ClassesConfig',
-    'forum.apps.ForumConfig'
+    'forum.apps.ForumConfig',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +150,8 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'frim.mailer@gmail.com'
 EMAIL_HOST_PASSWORD = 'frim1234'
 EMAIL_USE_TLS = True
+
+# Path for uploads
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
