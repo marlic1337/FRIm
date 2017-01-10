@@ -9,4 +9,4 @@ class Document(models.Model):
     description = models.CharField(max_length=1000)
     date = models.DateTimeField(auto_now_add=True)
     #owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    #subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey('classes.Predmet', on_delete=models.CASCADE)

@@ -2,15 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Informacije o datoteki</title>   
+        <title>Datoteka - {{ document.title }}</title>   
     </head>
     <body>
-    <a href="{% url 'documents:list' %}">Nazaj na seznam</a>
+    <a href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
+    <p>{{ class.predmet_name }}</p>
     <p>{{ document.title }}</p>
     <p>{{ document.description }}</p>
 
-    <a href="{% url 'documents:download' document.id %}">Download</a>
-    <a href="{% url 'documents:update' document.id %}">Update</a>
-    <a href="{% url 'documents:delete' document.id %}">Delete</a>
+    <a href="{% url 'documents:download' class.predmet_id document.id %}">Download</a>
+    <a href="{% url 'documents:update' class.predmet_id document.id %}">Update</a>
+    <a href="{% url 'documents:delete' class.predmet_id document.id %}">Delete</a>
     </body>
 </html>
