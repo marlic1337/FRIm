@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'classes.apps.ClassesConfig',
     'forum.apps.ForumConfig',
     'django_cleanup',
+    'market.apps.MarketConfig',
 ]
 
 MIDDLEWARE = [
