@@ -54,7 +54,7 @@ def index(request):
 
     for u in urnik:
         u.day = days[u.day]
-        u.subjectId = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
+        u.subjectName = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
         u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
         #u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
         u.type = type[u.type]
@@ -249,6 +249,7 @@ class UrnikActivity:
     duration = 0
     type = ''
     subjectId = ''
+    subjectName = ''
     activitys = list()
     classrooms = list()
     teachers = list()

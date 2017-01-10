@@ -9,7 +9,7 @@
     {% for u in urnik %}
         {% if u.day == 'ponedeljek' %}
             <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
             </ul>
         {% endif %}
     {% endfor %}
@@ -19,7 +19,7 @@
     {% for u in urnik %}
         {% if u.day == 'torek' %}
             <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}". class="btn btn-xs">Dokumenti</a></p></li>
+                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}". class="btn btn-xs">Dokumenti</a></p></li>
             </ul>
         {% endif %}
     {% endfor %}
@@ -29,7 +29,7 @@
     {% for u in urnik %}
         {% if u.day == 'sreda' %}
             <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
             </ul>
         {% endif %}
     {% endfor %}
@@ -39,7 +39,7 @@
     {% for u in urnik %}
         {% if u.day == 'cetrtek' %}
             <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
             </ul>
         {% endif %}
     {% endfor %}
@@ -49,7 +49,7 @@
     {% for u in urnik %}
         {% if u.day == 'petek' %}
             <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectId }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
             </ul>
         {% endif %}
     {% endfor %}
