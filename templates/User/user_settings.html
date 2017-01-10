@@ -6,30 +6,29 @@
   <div style="overflow: auto; position: relative; padding: 0px">
 
     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12" style="padding: 0px">
-      <img src="{{ user.logo }}" height="250px" width="250px">
+      <img src="{{ user.logo.url }}" height="250px" width="250px">
     </div>
 
     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12" style="padding: 0px; margin-top: 25px;">
       <div class="form-group">
-        <label for="id_username">Uporabnisko ime</label>
-        <input type="text" id="id_username" class="form-control" placeholder="{{ user.username }}" disabled>
+        <label>Uporabnisko ime</label>
+        <input type="text" class="form-control" placeholder="{{ user.username }}" disabled>
       </div>
       <div class="form-group">
-        <label for="id_name">Ime in Priimek</label>
-        <input type="text" id="id_name" class="form-control" placeholder="{{ user.first_name }} {{ user.last_name }}" disabled>
+        <label>Ime in Priimek</label>
+        <input type="text" class="form-control" placeholder="{{ user.first_name }} {{ user.last_name }}" disabled>
       </div>
       <div class="form-group">
-        <label for="id_studentid">Vpisna stevilka</label>
-        <input type="text" id="id_studentid" class="form-control" placeholder="{{ user.studentId }}" disabled>
+        <label>Vpisna stevilka</label>
+        <input type="text" class="form-control" placeholder="{{ user.studentId }}" disabled>
       </div>
     </div>
 
   </div>
-    <div>
   <div style="padding-top: 2%">
   <div class="form-group">
     <label for="id_logo">Profilna slika</label>
-    <input type="file" class="form-control" id="id_logo">
+    <input type="file" class="form-control" id="id_logo" name="logo">
   </div>
   <div class="form-group">
     <label for="id_email">Email za obvescanje</label>
@@ -38,57 +37,25 @@
   <h2 style="">Socialna omrezja</h2>
   <div class="form-group">
     <label for="id_url_facebook">Facebook</label>
-    <input type="text" class="form-control" id="id_url_facebook" maxlength="64" name="url_facebook" placeholder="https://www.facebook.com/">
+    <input type="text" class="form-control" id="id_url_facebook" maxlength="64" name="url_facebook" placeholder="https://www.facebook.com/" value="{{ user.socialnetworks.url_facebook }}">
   </div>
   <div class="form-group">
     <label for="id_url_googleplus">Google+</label>
-    <input type="text" class="form-control" id="id_url_googleplus" maxlength="64" name="url_googleplus" placeholder="https://plus.google.com/">
+    <input type="text" class="form-control" id="id_url_googleplus" maxlength="64" name="url_googleplus" placeholder="https://plus.google.com/" value="{{ user.socialnetworks.url_googleplus }}">
   </div>
   <div class="form-group">
     <label for="id_url_twitter">Twitter</label>
-    <input type="text" class="form-control" id="id_url_twitter" maxlength="64" name="url_twitter" placeholder="https://twitter.com/">
+    <input type="text" class="form-control" id="id_url_twitter" maxlength="64" name="url_twitter" placeholder="https://twitter.com/" value="{{ user.socialnetworks.url_twitter }}">
   </div>
   <div class="form-group">
     <label for="id_url_linkedin">LinkedIn</label>
-    <input type="text" class="form-control" id="id_url_linkedin" maxlength="64" name="url_linkedin" placeholder="https://www.linkedin.com/">
+    <input type="text" class="form-control" id="id_url_linkedin" maxlength="64" name="url_linkedin" placeholder="https://www.linkedin.com/" value="{{ user.socialnetworks.url_linkedin }}">
   </div>
   <div class="form-group">
     <label for="id_url_github">GitHub</label>
-    <input type="text" class="form-control" id="id_url_github" maxlength="64" name="url_github" placeholder="https://github.com/">
+    <input type="text" class="form-control" id="id_url_github" maxlength="64" name="url_github" placeholder="https://github.com/" value="{{ user.socialnetworks.url_github }}">
   </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit" style="float: right; width: 100px;">Shrani</button>
   </div>
 </form>
 {% endblock %}
-
-
-
-
-
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Uporabniske nastavitve - {{ user.username }}</title>
-    </head>
-    <body>
-        <a href="">Nazaj na seznam</a>
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>Prenesi datoteko:</p>
-            <p>{{ form.non_field_errors }}</p>
-            <p>Ime
-                {{ form.email }}
-                {{ form.url_facebook }}
-                {{ form.url_googleplus }}
-                {{ form.url_twitter }}
-                {{ form.url_linkedin }}
-                {{ form.url_github }}
-                {{ form.reset_user_data }}
-                {{ form.reset_user_data }}
-            </p>
-            <p><input type="submit" value="Prenesi" /></p>
-        </form>
-    </body>
-</html>
