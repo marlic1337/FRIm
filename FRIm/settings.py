@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'login.apps.LoginConfig',
     'home.apps.HomeConfig',
     'classes.apps.ClassesConfig',
+    'forum.apps.ForumConfig'
 ]
 
 MIDDLEWARE = [

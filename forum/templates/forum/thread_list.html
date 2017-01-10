@@ -1,0 +1,70 @@
+{% extends "forum/header.html" %}
+
+
+{% block content  %}
+
+<!-- Threads -->
+    <a id="new_topic" class="button" href=" {% url 'post' ptype="new_thread" id=pk %}   "> Nova Tema</a>
+    <br />
+    <br />
+
+
+<div id="list">
+<table border="0" cellpadding="4" width="100%" class="forum table-striped">
+<thead>
+    <tr>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Replies</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Last post</th>
+       <th></th>
+    </tr>
+</thead>
+<tbody>
+    {% for thread in subforum %}
+        <tr>
+            <td class="{% if forloop.last %}last{% endif %}">
+               <h4><div class="title text-center hidden-xs hidden-sm"> <a href="{% url 'thread' thread.id  %}">{{ thread.title }}</a> </h4>
+
+                </div>
+            </td>
+
+            <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %}">{{ thread.num_replies }}</td>
+
+            <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
+
+                {{ thread.last_post.short|linebreaksbr }}
+            </td>
+
+             <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
+
+                 <a class="button" href="{% url 'subforum' thread.id %}">VIEW</a>
+
+             </td>
+
+        </tr>
+
+    {% endfor %}
+</tbody>
+</div>
+
+    <!--Page Links- -->
+
+    {% if subforum.object_list and subforum.paginator.num_pages > 1 %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if thread.has_previous %}
+        <a href="?page={{ subforum.previous_page_number }}">Previous</a>
+        {% endif %}
+    <span class="current">
+        Page {{ subforum.number }} of {{ subforum.paginator.num_pages }}
+    </span>
+
+    {% if subforum.has_next %}
+        <a href="?page={{ subforum.next_page_number }}">Previous</a>
+    {% endif %}
+    </span>
+    </div>
+    {% endif %}
+
+
+{% endblock %}

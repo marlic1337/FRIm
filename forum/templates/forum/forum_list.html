@@ -1,0 +1,11 @@
+{% extends "forum/header.html" %}
+
+{% block content %}
+
+    {% for forum in object_list %}
+
+        <h5> <a href="subforum/{{ forum.id }}" > {{ forum.title }} </a>   </h5>
+
+    {% endfor %}
+
+{% endblock %}

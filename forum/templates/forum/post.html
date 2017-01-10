@@ -1,0 +1,19 @@
+{% extends "forum/header.html" %}
+
+{% block content %}
+
+
+    <div class="main">
+        <div id="reply">
+            <div id="rtitle">{{ title }}</div><br />
+
+            <form action="{{ action }}" method="POST"> {% csrf_token %}
+                Subject: <input type="text" name="subject" size="60" value="{{ subject }}" /><br />
+                <textarea name="body" id="body"></textarea><br />
+                <input type="submit" value="Submit" id="submit" />
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
