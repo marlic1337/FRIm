@@ -5,9 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.auth.decorators import login_required
 
 from .models import Document
 from classes.models import Predmet
+from User.models import CustomUser
 from .forms import UploadFileForm, UpdateFileForm, SearchForm
 
 
@@ -28,23 +30,30 @@ def list(request, class_id):
         documents = documents.order_by('-date')
     return render(request, 'documents/list.html', {'documents': documents, 'form': form, 'query_text': query_text, 'class': class_object})
 
+@login_required
 def upload(request, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            document = Document(file = request.FILES['file'], title = request.POST['title'], description = request.POST['description'], subject = class_object)
+            document = Document(file = request.FILES['file'], title = request.POST['title'], description = request.POST['description'], subject = class_object, owner = request.user)
             document.save()
             return HttpResponseRedirect(reverse('documents:detail', args=(class_object.predmet_id, document.id)))
     else:
         form = UploadFileForm()
     return render(request, 'documents/upload.html', {'form': form, 'class': class_object})
 
+@login_required
 def detail(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
-    return render(request, 'documents/detail.html', {'document': document, 'class': class_object})
+    is_owner = False
+    if request.user.studentId == document.owner.studentId:
+        is_owner = True
+    return render(request, 'documents/detail.html', {'document': document, 'class': class_object, 'is_owner': is_owner})
 
+#request.user
+@login_required
 def download(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
@@ -52,15 +61,21 @@ def download(request, document_id, class_id):
     response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(document.file.url)
     return response
 
+@login_required
 def delete(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
+    if request.user.studentId != document.owner.studentId:
+        return HttpResponse('Unauthorized', status=401)
     document.delete()
     return HttpResponseRedirect(reverse('documents:list', args=(class_object.predmet_id,)))
 
+@login_required
 def update(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
+    if request.user.studentId != document.owner.studentId:
+        return HttpResponse('Unauthorized', status=401)
     if request.method == 'POST':
         form = UpdateFileForm(request.POST)
         if form.is_valid():

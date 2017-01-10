@@ -11,7 +11,9 @@
     <p>{{ document.description }}</p>
 
     <a href="{% url 'documents:download' class.predmet_id document.id %}">Download</a>
+    {% if is_owner %}
     <a href="{% url 'documents:update' class.predmet_id document.id %}">Update</a>
     <a href="{% url 'documents:delete' class.predmet_id document.id %}">Delete</a>
+    {% endif %}
     </body>
 </html>
