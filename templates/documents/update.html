@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Posodobi - {{ document.title }}</title>   
-    </head>
-    <body>
-        <a href="{% url 'documents:detail' class.predmet_id document.id %}">Prekliči urejanje</a>
+{% extends 'base.html' %}
+
+{% block content %}
+        <a class="btn btn-default" role="button" href="{% url 'documents:detail' class.predmet_id document.id %}">Prekliči urejanje</a>
+        <h2>{{ class.predmet_name }}</h2><br/>
         <form action="{% url 'documents:update' class.predmet_id document.id %}" method="post">
             {% csrf_token %}
-            <p>Posodobi datoteko:</p>
-            <p>{{ form.non_field_errors }}</p>
-            <p>Ime
-                {{ form.title.errors }}
-                {{ form.title }}
-            </p>
-            <p>Opis
-                {{ form.description.errors }}
-                {{ form.description }}
-            </p>
-            <p><input type="submit" value="Posodobi" /></p>
+            <h4>Posodobi datoteko</h4>
+            <label for="title" class="sr-only">Ime</label>
+            <input type="text" maxlength="60" name="title" id="id_title" class="form-control" value="{{ document.title }}" placeholder="Ime datoteke" required autofocus>
+            <br/>
+            <label for="description" class="sr-only">Opis</label>
+            <textarea maxlength="1000" rows="4" name="description" id="id_description" class="form-control" placeholder="Opis datoteke" required>{{ document.description }}</textarea>
+            
+            <br/>
+            <br/><p><button type="submit" class="btn btn-info">
+                Posodobi
+            </button></p>
         </form>
-    </body>
-</html>
+{% endblock %}

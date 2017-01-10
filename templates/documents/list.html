@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Datoteke - {{ class.predmet_name }}</title>   
-    </head>
-    <body>
-    <a href="{% url 'documents:upload' class.predmet_id %}">Nova datoteka</a>
-    <form action="{% url 'documents:list' class.predmet_id %}" method="get">
-        <p>Iskanje:</p>
-        <p>{{ form.non_field_errors }}</p>
-        <p>
-            {{ form.query.errors }}
-            {{ form.query }}
-        </p>
+{% extends 'base.html' %}
 
-        <p><input type="submit" value="Išči" /></p>
+{% block content %}
+    <a class="btn btn-default" role="button" href="{% url 'documents:index' %}">Nazaj na seznam</a> <a class="btn btn-default" role="button" href="{% url 'documents:upload' class.predmet_id %}">Nova datoteka</a>
+    <h2>{{ class.predmet_name }}</h2><br/>
+    <form action="{% url 'documents:list' class.predmet_id %}" method="get">
+        <label for="query" class="sr-only">Iskanje</label>
+        <input type="text" maxlength="60" name="query" id="id_query" class="form-control" placeholder="Datoteka" required autofocus>
+            <br/><p><button type="button" class="btn btn-info">
+                Iskanje
+            </button></p>
     </form>
     {% if query_text %}
-        <a href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
-        <p>Rezultati iskanja za: {{ query_text }}</p>
+        <a class="btn btn-default" role="button" href="{% url 'documents:list' class.predmet_id %}">Ponastavi iskanje</a>
+        <br/><br/><p>Rezultati iskanja za: {{ query_text }}</p>
     {% endif %}
 
+  <h3>Datoteke</h3>
+    
     {% if documents %}
         <ul>
         {% for document in documents %}
@@ -30,5 +26,4 @@
     {% else %}
         <p>Ni datotek.</p>
     {% endif %}
-    </body>
-</html>
+{% endblock %}

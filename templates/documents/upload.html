@@ -1,28 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Prenesi datoteko - {{ class.predmet_name }}</title>   
-    </head>
-    <body>
-        <a href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
+{% extends 'base.html' %}
+
+{% block content %}
+ <script type="text/javascript">
+            function alertFilename()
+            {
+                var file = document.getElementById('id_file');
+                document.getElementById('id_filename').value = file.value.replace(/.*[\/\\]/, '');
+            }
+        </script>
+
+        <a class="btn btn-default" role="button" href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
+        <h2>{{ class.predmet_name }}</h2><br/>
+
         <form action="{% url 'documents:upload' class.predmet_id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <p>Prenesi datoteko:</p>
-            <p>{{ form.non_field_errors }}</p>
-            <p>Ime
-                {{ form.title.errors }}
-                {{ form.title }}
-            </p>
-            <p>Opis
-                {{ form.description.errors }}
-                {{ form.description }}
-            </p>
-            <p>Datoteka
-                {{ form.file.errors }}
-                {{ form.file }}
-            </p>
-            <p><input type="submit" value="Prenesi" /></p>
+            <h4>Prenesi datoteko</h4>
+            <label for="title" class="sr-only">Ime</label>
+            <input type="text" maxlength="60" name="title" id="id_title" class="form-control" placeholder="Ime datoteke" required autofocus>
+            <br/>
+            <label for="description" class="sr-only">Opis</label>
+            <textarea maxlength="1000" rows="4" name="description" id="id_description" class="form-control" placeholder="Opis datoteke" required></textarea>
+            <br/>
+            
+
+            <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Izberi datoteko <input type="file" name="file" id="id_file" style="display: none;" onchange="alertFilename()">
+                    </span>
+                </label>
+                <input type="text" class="form-control" id="id_filename" readonly>
+            </div>
+            
+            <br/>
+            <br/><p><button type="submit" class="btn btn-info">
+                Prenesi
+            </button></p>
         </form>
-    </body>
-</html>
+
+{% endblock %}

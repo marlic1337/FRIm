@@ -13,6 +13,26 @@ from User.models import CustomUser
 from .forms import UploadFileForm, UpdateFileForm, SearchForm
 
 
+def index(request):
+    subjects = Predmet.objects.all()
+    query_text = None
+    if request.method == 'GET' and 'query' in request.GET.keys():
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            vector = SearchVector('predmet_name', weight='A')
+            query_text = request.GET['query']
+            query = SearchQuery(query_text)
+            subjects = subjects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
+    context = {
+        'user': request.user,
+        'title': 'FRIm - Datoteke',
+        'navbar_active': 'None',
+        'subjects': subjects,
+        'query_text': query_text,
+    }
+    return render(request, 'documents/index.html', context)
+
+@login_required
 def list(request, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     documents = None
@@ -28,7 +48,16 @@ def list(request, class_id):
     else:
         form = SearchForm()
         documents = documents.order_by('-date')
-    return render(request, 'documents/list.html', {'documents': documents, 'form': form, 'query_text': query_text, 'class': class_object})
+    context = {
+        'user': request.user,
+        'title': 'FRIm - Datoteke ' + class_object.predmet_name,
+        'navbar_active': 'None',
+        'class': class_object,
+        'query_text': query_text,
+        'documents': documents,
+        'form': form,
+    }
+    return render(request, 'documents/list.html', context)
 
 @login_required
 def upload(request, class_id):
@@ -41,7 +70,14 @@ def upload(request, class_id):
             return HttpResponseRedirect(reverse('documents:detail', args=(class_object.predmet_id, document.id)))
     else:
         form = UploadFileForm()
-    return render(request, 'documents/upload.html', {'form': form, 'class': class_object})
+    context = {
+        'user': request.user,
+        'title': 'FRIm - Prenesi datoteko',
+        'navbar_active': 'None',
+        'class': class_object,
+        'form': form,
+    }
+    return render(request, 'documents/upload.html', context)
 
 @login_required
 def detail(request, document_id, class_id):
@@ -50,7 +86,15 @@ def detail(request, document_id, class_id):
     is_owner = False
     if document.owner is not None and request.user.studentId == document.owner.studentId:
         is_owner = True
-    return render(request, 'documents/detail.html', {'document': document, 'class': class_object, 'is_owner': is_owner})
+    context = {
+        'user': request.user,
+        'title': 'FRIm - Datoteka ' + document.title,
+        'navbar_active': 'None',
+        'class': class_object,
+        'document': document,
+        'is_owner': is_owner,
+    }
+    return render(request, 'documents/detail.html', context)
 
 #request.user
 @login_required
@@ -85,4 +129,12 @@ def update(request, document_id, class_id):
             return HttpResponseRedirect(reverse('documents:detail', args=(class_object.predmet_id, document.id)))
     else:
         form = UpdateFileForm(initial={'title': document.title, 'description': document.description})
-    return render(request, 'documents/update.html', {'form': form, 'document': document, 'class': class_object})
+    context = {
+        'user': request.user,
+        'title': 'FRIm - Posodobi datoteko',
+        'navbar_active': 'None',
+        'class': class_object,
+        'document': document,
+        'form': form,
+    }
+    return render(request, 'documents/update.html', context)

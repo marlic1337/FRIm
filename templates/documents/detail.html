@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Datoteka - {{ document.title }}</title>   
-    </head>
-    <body>
-    <a href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
-    <p>{{ class.predmet_name }}</p>
-    <p>{{ document.title }}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+    <a class="btn btn-default" role="button" href="{% url 'documents:list' class.predmet_id %}">Nazaj na seznam</a>
+    <h2>{{ class.predmet_name }}</h2>
+    <h3>{{ document.title }}</h3>
+    <br/>
     <p>{{ document.description }}</p>
 
-    <a href="{% url 'documents:download' class.predmet_id document.id %}">Download</a>
+    <br/><br/>
+    <a class="btn btn-primary" role="button" href="{% url 'documents:download' class.predmet_id document.id %}">Prenesi</a>
     {% if is_owner %}
-    <a href="{% url 'documents:update' class.predmet_id document.id %}">Update</a>
-    <a href="{% url 'documents:delete' class.predmet_id document.id %}">Delete</a>
+    <a class="btn btn-warning" role="button" href="{% url 'documents:update' class.predmet_id document.id %}">Posodobi</a>
+    <a class="btn btn-danger" role="button" href="{% url 'documents:delete' class.predmet_id document.id %}">Izbriši</a>
+    {% else %}
+    <a class="btn btn-warning disabled" role="button" href="{% url 'documents:update' class.predmet_id document.id %}">Posodobi</a>
+    <a class="btn btn-danger disabled" role="button" href="{% url 'documents:delete' class.predmet_id document.id %}">Izbriši</a>
     {% endif %}
-    </body>
-</html>
+{% endblock %}

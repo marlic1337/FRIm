@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="{% url 'documents:index' %}" method="get">
+        <!--<p>{{ form.non_field_errors }}</p>
+        <p>
+            {{ form.query.errors }}
+            {{ form.query }}
+        </p>-->
+
+        <label for="query" class="sr-only">Iskanje</label>
+		<input type="text" maxlength="60" name="query" id="id_query" class="form-control" placeholder="Predmet" required autofocus>
+            <br/><p><button type="button" class="btn btn-info">
+				Iskanje
+	        </button></p>
+
+    </form>
+    {% if query_text %}
+    	<a class="btn btn-default" role="button" href="{% url 'documents:index' %}">Ponastavi iskanje</a>
+        <br/><br/><p>Rezultati iskanja za: {{ query_text }}</p>
+    {% endif %}
+        
+  <h3>Predmeti</h3>
+  {% if subjects %}
+    <ul>
+        {% for subject in subjects %}
+        <li><a href="{% url 'documents:list' subject.predmet_id %}">{{ subject.predmet_name }} ({{ subject.predmet_id}})</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Ni ustreznih predmetov.</p>
+    {% endif %}
+{% endblock %}
