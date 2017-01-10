@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prijava</title>
+</head>
+<body>
+        {% if next %}
+        <form action="/login?next={{next}}" method="post" enctype="multipart/form-data">
+        {%else%}
+        <form action="/login" method="post" >
+        {% endif %}
+            {% csrf_token %}
+            <p>Prijava</p>
+            <p>{{ form.non_field_errors }}</p>
+            <p>E-mail
+                {{ form.mail.errors }}
+                {{ form.mail }}
+            </p>
+            <p>Geslo
+                {{ form.password.errors }}
+                {{ form.password }}
+            </p>
+            <p><input type="submit" value="Potrdi" /></p>
+        </form>
+</body>
+</html>

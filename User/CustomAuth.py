@@ -48,7 +48,11 @@ class CustomAuth(object):
         else:
             studentId = studentId[0]
 
-        localuser = self.register(username, name, studentId)
+        self.register(username, name, studentId)
+        try:
+            localuser = MyUser.objects.get(username=username)
+        except:
+            return None
 
         return localuser
 
