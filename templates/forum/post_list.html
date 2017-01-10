@@ -26,10 +26,13 @@
         <div class="col-sm-10">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong> {{ post.created_by.first_name }} {{ post.created_by.last_name }} komentiral {{ post.time }} </strong>
+                                  {% if request.user == post.created_by %}
+                    <a id="new_topic" class="btn btn-primary btn-xs" href=" {% url 'post' ptype="edit" id=post.id %}   "> Edit </a>
+                    {% endif %}    <strong>{{ post.title }} &nbsp; </strong><small class="pull-right"> {{ post.created_by.first_name }} {{ post.created_by.last_name }} , {{ post.time|date:'Y-m-d H:i' }} </small>
                 </div>
                 <div class="panel-body">
                      {{ post.body }}
+
                 </div>
             </div>
         </div>

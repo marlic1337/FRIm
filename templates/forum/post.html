@@ -16,14 +16,25 @@
             <form action="{{ action }}" method="POST"> {% csrf_token %}
                 <div class="form-group">
                     <label for="subject">Predmet</label>
-                    <input type="text" class="form-control" id="subject" name="subject" placeholder="{{ subject }}">
+                    <input type="text" class="form-control" id="subject" name="subject" value="{{ subject }}">
 
                 </div>
                 <div class="form-group">
                     <label for="body">Sporocilo:</label>
-                    <textarea class="form-control" rows="10" id="body" name="body" placeholder=""></textarea>
+                    <textarea class="form-control" rows="10" id="body" name="body" value="">{{ body }}</textarea>
                 </div>
+
+                {% if edit  %}
+
+               <div class="checkbox alert alert-danger">
+                   <label>
+                       <input type="checkbox" value="Blah" id=delete" name="delete">Izbrisi Objavo
+                   </label>
+               </div>
+                {% endif %}
+
                 <input type="submit" value="Submit" id="submit" class="btn btn-default" />
+
             </form>
 
         </div>

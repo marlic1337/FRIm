@@ -67,9 +67,9 @@ class Post(models.Model):
         return u"%s - %s - %s " % (self.created_by, self.thread, self.title)
 
     def short(self):
-        return u"V temi: %s \n %s %s \n %s " % (self.thread.title, self.created_by.first_name,self.created_by.last_name, self.time.strftime("%b %d, %I:%M %p"))
-    short.allow_tags = True
+        return u"V temi: %s \n %s %s \n %s " % (self.thread.title, self.created_by.first_name,self.created_by.last_name, self.time.strftime("%Y-%m-%d %H:%m"))
 
+    short.allow_tags = True
     def slika(self):
         s = self.created_by.logo_url()
         return s
