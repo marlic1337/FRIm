@@ -10,15 +10,15 @@ class CustomUser(AbstractUser):
 
     REQUIRED_FIELDS = ['studentId']
 
-    #logo = models.ImageField(upload_to='logos', width_field='logo_width', height_field='logo_height', null=True,
-    #                         blank=True)
-    #logo_width = models.PositiveIntegerField(null=True)
-    #logo_height = models.PositiveIntegerField(null=True)
+    logo = models.ImageField(upload_to='profile_pic/', width_field='logo_width', height_field='logo_height', null=True,
+                             blank=True)
+    logo_width = models.PositiveIntegerField(null=True)
+    logo_height = models.PositiveIntegerField(null=True)
 
-    #def logo_url(self):
-    #    if self.logo:
-    #        return self.logo.url
-    #    return settings.STATIC_URL + 'img/default_user.png'
+    def logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return settings.STATIC_URL + 'profile_pic/default_user.png'
 
 class SocialNetworks(models.Model):
     user = models.OneToOneField(CustomUser, primary_key=True)
