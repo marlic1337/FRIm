@@ -51,13 +51,12 @@
 
 <br/>
 <div id="list">
-<table border="0" cellpadding="4" width="100%" class="forum table-striped">
+<table border="0" cellpadding="4" width="100%" class="table table-striped">
 <thead>
     <tr>
        <th class="cell-stat text-center "> Forum </th>
        <th class="cell-stat text-center ">Sporocil</th>
-       <th class="cell-stat text-center ">Zadnje sporocilo</th>
-       <th></th>
+       <th class="cell-stat text-center hidden-xs ">Zadnje sporocilo</th>
 
     </tr>
 </thead>
@@ -70,7 +69,7 @@
 
             </td>
 
-            <td class="text-center hidden-xs  {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
+            <td class="text-center  {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
 
             <td class="text-center hidden-xs  {% if forloop.last %}last{% endif %} ">
 
