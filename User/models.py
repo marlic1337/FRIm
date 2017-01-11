@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     def logo_url(self):
         if self.logo:
             return self.logo.url
-        return settings.STATIC_URL + 'profile_pic/default_user.png'
+        return settings.MEDIA_URL + 'profile_pic/default_user.png'
 
 class SocialNetworks(models.Model):
     user = models.OneToOneField(CustomUser, primary_key=True)
