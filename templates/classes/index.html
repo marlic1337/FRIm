@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        function toggleDiv(predavanje) {
+           $(".predavanje").toggle();
+        }
+    </script>
 
     <h2>Moj urnik</h2>
     <h5>Verzija urnika: {{ urnik_name }}</h5>
+    <br>
+
+    <a href="javascript:toggleDiv('predavanja');" style="float: right;" class="btn btn-info">Prikaži samo vaje</a>
+
     <br>
     {% if 'ponedeljek' in urnik_days %}
         <p><b>Ponedeljek:</b></p>
         {% for u in urnik %}
             {% if u.day == 'ponedeljek' %}
                 <ul class="list-group">
-                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -21,7 +31,7 @@
         {% for u in urnik %}
             {% if u.day == 'torek' %}
                 <ul class="list-group">
-                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -32,7 +42,7 @@
         {% for u in urnik %}
             {% if u.day == 'sreda' %}
                 <ul class="list-group">
-                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -43,7 +53,7 @@
         {% for u in urnik %}
             {% if u.day == 'cetrtek' %}
                 <ul class="list-group">
-                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -54,18 +64,11 @@
         {% for u in urnik %}
             {% if u.day == 'petek' %}
                 <ul class="list-group">
-                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
     {% endif %}
 
-    <br>
-    <h2>Vsi Predmeti</h2>
-    <ul>
-        {% for cls in all_classes %}
-        <li>{{ cls.predmet_id }} - {{ cls.predmet_name }}  <a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ cls.predmet_id }}" class="btn btn-xs">Dokumenti</a></li>
-        {% endfor %}
-    </ul>
 
 {% endblock %}
