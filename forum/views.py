@@ -67,7 +67,7 @@ def search(request):
             forumi = Forum.objects.all()
             for string in query_text.split(" "):
                 forumi = forumi.filter(title__icontains=string)
-            forumi = make_paginator(request, forumi, 20)
+            forumi = make_paginator(request, forumi, 200)
             return render(request, 'forum/forums.html', {"forums" : forumi, 'active_nav': 'forum'})
         else:
             return HttpResponseRedirect(reverse('index'))
