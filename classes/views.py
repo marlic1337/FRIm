@@ -62,10 +62,18 @@ def index(request):
     for u in urnik:
         u.day = days[u.day]
         u.subjectName = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
-        u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
+        try:
+            u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
+        except:
+            u.classroom = Prostor.objects.get(prostor_name='Neznan Prostor')
+
         u.type = type[u.type]
 
-        u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+        u.teachers = list()
+        try:
+            u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+        except:
+            u.teacher = Profesor.objects.get(profesor_name='Neznan Profesor')
 
         unicode_text = smart_text('{}, {}; {}; {}'.format(u.day, u.time, u.classroom, u.teacher), encoding='utf-8',
                               strings_only=False, errors='strict')
@@ -122,6 +130,26 @@ def parseUrnik():
     Urnik.objects.all().delete()
     u = Urnik(urnik_name=currentUrnikName)
     u.save()
+
+    try:
+        Predmet.objects.get(predmet_name='Neznan Predmet')
+    except:
+        Predmet(predmet_name='Neznan Predmet').save()
+
+    try:
+        Profesor.objects.get(profesor_name='Neznan Profesor')
+    except:
+        Profesor(profesor_name='Neznan Profesor').save()
+
+    try:
+        Prostor.objects.get(prostor_name='Neznan Prostor')
+    except:
+        Prostor(prostor_name='Neznan Prostor').save()
+
+    try:
+        Skupina.objects.get(skupina_name='Neznana Skupina')
+    except:
+        Skupina(skupina_name='Neznana Skupina').save()
 
     teachers = re.findall(r'<a href= ".*?allocations\?teacher=(.*?)">(.*?)</a><br/>', response.content)
     print len(teachers)
