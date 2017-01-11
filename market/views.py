@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.utils.encoding import smart_text
 from django.core.mail import send_mail
 from django.utils.html import format_html
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -14,12 +15,13 @@ from classes.models import Predmet, Prostor, Profesor
 from User.models import CustomUser
 from .models import PonudbaStudenta
 
-
+@login_required
 def index(request):
     context = {'active_nav': 'market'}
 
     return render(request, 'market/index.html', context)
 
+@login_required
 def makeoffer(request):
     urnik = parseUrnikVpisna(request.user.studentId)
 
@@ -35,7 +37,7 @@ def makeoffer(request):
     }
     return render(request, 'market/makeoffer.html', context)
 
-
+@login_required
 def createoffer(request, subjectId):
     user = request.user
     subject = Predmet.objects.get(predmet_id=subjectId).predmet_name
@@ -79,6 +81,7 @@ def createoffer(request, subjectId):
 
     return render(request, 'market/createoffer.html', context)
 
+@login_required
 def myoffers(request):
     user = request.user
     offers = user.ponudbastudenta_set.all()
@@ -90,7 +93,7 @@ def myoffers(request):
 
     return render(request, 'market/myoffers.html', context)
 
-
+@login_required
 def migrateOffer(request):
     try:
         user = request.user
@@ -112,6 +115,7 @@ def migrateOffer(request):
 
     #return HttpResponseRedirect(reverse('market:myoffers', args=()))
 
+@login_required
 def alloffers(request):
     user = request.user
     offers = PonudbaStudenta.objects.exclude(user=user, accepted=True)
@@ -124,6 +128,7 @@ def alloffers(request):
 
     return render(request, 'market/alloffers.html', context)
 
+@login_required
 def offeraccepted(request):
     offer = PonudbaStudenta.objects.get(pk=request.POST['offer'])
     offer.accepted = True
@@ -148,12 +153,15 @@ def offeraccepted(request):
 
     return render(request, 'market/offeraccepted.html', context)
 
+@login_required
 def nochoice(request):
     return render(request, 'market/nochoice.html', {'active_nav': 'market'})
 
+@login_required
 def oneoffer(request):
     return render(request, 'market/oneoffer.html', {'active_nav': 'market'})
 
+@login_required
 def timetable(request):
     user = request.user
     urnik = parseUrnikVpisna(user.studentId)
@@ -208,6 +216,7 @@ def timetable(request):
     }
     return render(request, 'market/timetable.html', context)
 
+@login_required
 def deleteOffer(request):
     PonudbaStudenta.objects.get(pk=request.POST['offer']).delete()
 
