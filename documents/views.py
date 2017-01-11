@@ -12,6 +12,8 @@ from classes.models import Predmet
 from User.models import CustomUser
 from .forms import UploadFileForm, UpdateFileForm, SearchForm
 
+import operator
+
 
 def index(request):
     subjects = Predmet.objects.all()
@@ -19,10 +21,12 @@ def index(request):
     if request.method == 'GET' and 'query' in request.GET.keys():
         form = SearchForm(request.GET)
         if form.is_valid():
-            vector = SearchVector('predmet_name', weight='A')
             query_text = request.GET['query']
-            query = SearchQuery(query_text)
-            subjects = subjects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
+            for string in query_text.split(" "):
+                subjects = subjects.filter(predmet_name__icontains=string)
+            #vector = SearchVector('predmet_name', weight='A')
+            #query = SearchQuery(query_text)
+            #subjects = subjects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
     context = {
         'user': request.user,
         'title': 'FRIm - Datoteke',
@@ -41,10 +45,13 @@ def list(request, class_id):
     if request.method == 'GET' and 'query' in request.GET.keys():
         form = SearchForm(request.GET)
         if form.is_valid():
-            vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
             query_text = request.GET['query']
-            query = SearchQuery(query_text)
-            documents = documents.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
+            for string in query_text.split(" "):
+                documents = documents.filter(title__icontains=string)
+            #vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
+            #query_text = request.GET['query']
+            #query = SearchQuery(query_text)
+            #documents = documents.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.3).order_by('rank')
     else:
         form = SearchForm()
         documents = documents.order_by('-date')
