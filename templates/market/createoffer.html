@@ -5,30 +5,28 @@
 
     <form action="{% url 'market:migrateOffer' %}" method="post">
         {% csrf_token %}
-        <label>Vpisna številka: <small>{{ id }}</small></label><br><br>
-
-        <label for="subject"><b>Predmet:</b> <small>{{ subject }}</small></label>
+        <label for="subject"><h3>{{ subject }}</h3></label>
         <input type="hidden" id="subject" name="subject" value="{{ subject }}" size="35"/><br><br>
 
-        <label for="classInfo"><b>Trenutni termin vaj:</b><br><small>{{ offered_class.day }}, {{ offered_class.time }}<br>{{ classroom }}<br>{{ teacher }}</small></label>
+        <label for="classInfo"><h5>Trenutni termin vaj:</h5><small>{{ offered_class.day }}, {{ offered_class.time }}<br>{{ classroom }}<br>{{ teacher }}</small></label>
         <input type="hidden" id="classInfo" name="classInfo" value="{{ offered_class.day }}, {{ offered_class.time }}; {{ classroom }}; {{ teacher }}" size="35"/><br><br>
 
-        <label><b>Menjam za:</b></label><br>
+        <label><h5>Menjam za:</h5></label><br>
         {% for l in labs %}
-            <input  type="radio" name="choice" value="{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}">{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}<br>
+            <input  type="radio" name="choice" value="{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}"> {{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}<br>
         {% endfor %}
         <br>
         <input class="btn btn-success" role="button" type="submit" value="Potrdi" />
+
+        <a class="btn btn-primary" role="button" href="{% url 'market:makeoffer' %}">Nazaj</a>
     </form>
 
     <br>
-    <a href="{% url 'classes:index' %}" target="_blank">Moj FRIm urnik</a>
+    <a class="btn btn-default" role="button" href="{% url 'classes:index' %}" target="_blank">FRIm urnik</a>
 
-    <br>
-    <a href="https://urnik.fri.uni-lj.si/timetable/fri-2016_2017-zimski-drugi-teden/allocations?student={{ id }}" target="_blank">Moj FRI urnik</a>
+    <a class="btn btn-default" role="button" href="https://urnik.fri.uni-lj.si/timetable/fri-2016_2017-zimski-drugi-teden/allocations?student={{ id }}" target="_blank">FRI urnik</a>
 
-    <br><br>
-    <a class="btn btn-primary" role="button" href="{% url 'market:makeoffer' %}">Nazaj</a>
+    
 
 {% else %}
 
