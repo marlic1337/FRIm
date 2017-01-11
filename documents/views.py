@@ -114,7 +114,7 @@ def download(request, document_id, class_id):
 def delete(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
-    if document.owner is not None and request.user.studentId != document.owner.studentId:
+    if not request.user.is_staff and (document.owner is not None and request.user.studentId != document.owner.studentId):
         return HttpResponse('Unauthorized', status=401)
     document.delete()
     return HttpResponseRedirect(reverse('documents:list', args=(class_object.predmet_id,)))
@@ -123,7 +123,7 @@ def delete(request, document_id, class_id):
 def update(request, document_id, class_id):
     class_object = get_object_or_404(Predmet, pk=class_id)
     document = get_object_or_404(Document, pk=document_id)
-    if document.owner is not None and request.user.studentId != document.owner.studentId:
+    if not request.user.is_staff and (document.owner is not None and request.user.studentId != document.owner.studentId):
         return HttpResponse('Unauthorized', status=401)
     if request.method == 'POST':
         form = UpdateFileForm(request.POST)

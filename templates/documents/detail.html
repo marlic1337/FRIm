@@ -9,7 +9,7 @@
 
     <br/><br/>
     <a class="btn btn-primary" role="button" href="{% url 'documents:download' class.predmet_id document.id %}">Prenesi</a>
-    {% if is_owner %}
+    {% if user.is_staff or is_owner %}
     <a class="btn btn-warning" role="button" href="{% url 'documents:update' class.predmet_id document.id %}">Posodobi</a>
     <a class="btn btn-danger" role="button" href="{% url 'documents:delete' class.predmet_id document.id %}">Izbriši</a>
     {% else %}
