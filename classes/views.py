@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from  django.utils.encoding import smart_text
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.template import loader
@@ -14,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout as logout_user
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 @login_required
 def index(request):
@@ -56,8 +63,22 @@ def index(request):
         u.day = days[u.day]
         u.subjectName = Predmet.objects.get(predmet_id=u.subjectId).predmet_name
         u.classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
-        #u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
         u.type = type[u.type]
+
+        u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+
+        unicode_text = smart_text('{}, {}; {}; {}'.format(u.day, u.time, u.classroom, u.teacher), encoding='utf-8',
+                              strings_only=False, errors='strict')
+
+        try:
+            myAcceptedOffer = PonudbaStudenta.objects.get(user=request.user, studentOffer=unicode_text, accepted=True)
+
+            if myAcceptedOffer.accepted:
+                u.day = myAcceptedOffer.studentWish.split(';')[0].split(', ')[0]
+                u.time = myAcceptedOffer.studentWish.split(';')[0].split(', ')[1]
+        except PonudbaStudenta.DoesNotExist:
+            pass
+
 
     urnik_days = []
     for cls in urnik:
