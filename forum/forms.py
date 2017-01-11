@@ -19,3 +19,8 @@ class PostEditForm(forms.Form):
     subject = forms.CharField(max_length=60)
     body = forms.CharField(max_length=10000)
     delete = forms.BooleanField(required=False)
+
+
+class SubForm(forms.Form):
+    sub = forms.CharField(max_length=5)
+    forum = forms.CharField(max_length=10)

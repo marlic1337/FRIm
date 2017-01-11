@@ -3,7 +3,48 @@
 
 {% block content  %}
 
+    <div class="row">
+                <div class="col-md-4 ">
+            <a id="new_topic" class="btn btn-default" href=" /forum/subscribed   "> Naročeni Forumi</a>
+        </div>
+        <div class="col-md-8 ">
+            <h2>Vsi Forumi:</h2>
+        </div>
+
+    </div>
+
+
 <!-- Forums -->
+    <div class="row">
+
+
+      {% if forums.object_list and forums.paginator.num_pages > 1 %}
+        <div class="row">
+      <div class="col-md-4 " > </div>
+        <div class="col-md-5 ">
+        {% if forums.has_previous %}
+        <a href="?page={{ forums.previous_page_number }}" class="btn btn-default">Nazaj</a>
+            {% else %}
+                    <a href="?page=1" class="btn btn-default disabled">Nazaj</a>
+
+        {% endif %}
+        Stran {{ forums.number }} od {{ forums.paginator.num_pages }}
+
+    {% if forums.has_next %}
+        <a href="?page={{ forums.next_page_number }}" class="btn btn-default">Naprej</a>
+        {% else %}
+                            <a href="?page=1" class="btn btn-default disabled">Naprej</a>
+
+    {% endif %}
+</div>
+       </div>
+    {% endif %}
+
+
+
+
+
+
 <div id="list">
 <table border="0" cellpadding="4" width="100%" class="forum table-striped">
 <thead>
@@ -33,7 +74,7 @@
 
              <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
 
-                 <a class="button" href="{% url 'subforum' forum.pk %}">VIEW</a>
+                 <a class="btn btn-primary" href="{% url 'subforum' forum.pk %}">Poglej</a>
 
              </td>
 
@@ -42,7 +83,37 @@
     {% endfor %}
 </tbody>
 </table>
+
+
+      {% if forums.object_list and forums.paginator.num_pages > 1 %}
+        <div class="row">
+      <div class="col-md-4 " > </div>
+        <div class="col-md-5 ">
+        {% if forums.has_previous %}
+        <a href="?page={{ forums.previous_page_number }}" class="btn btn-default">Nazaj</a>
+            {% else %}
+                    <a href="?page=1" class="btn btn-default disabled">Nazaj</a>
+
+        {% endif %}
+        Stran {{ forums.number }} od {{ forums.paginator.num_pages }}
+
+    {% if forums.has_next %}
+        <a href="?page={{ forums.next_page_number }}" class="btn btn-default">Naprej</a>
+        {% else %}
+                            <a href="?page=1" class="btn btn-default disabled">Naprej</a>
+
+    {% endif %}
 </div>
+       </div>
+    {% endif %}
+
+
+</div>
+    </div>
+
+
+
+
 
 
 {% endblock %}

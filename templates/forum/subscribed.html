@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block content  %}
+
+
+    <div class="row">
+                <div class="col-md-2 ">
+            <a id="new_topic" class="btn btn-default pull-right" href=" /forum   "> Vsi Forumi</a>
+        </div>
+        <div class="col-md-10 ">
+            <h2>Forumi na katere ste prijavljeni:</h2>
+        </div>
+
+    </div>
+<!-- Forums -->
+    <div class="row">
+
+<div id="list">
+<table border="0" cellpadding="4" width="100%" class="forum table-striped">
+<thead>
+    <tr>
+       <th class="cell-stat text-center hidden-xs hidden-sm"> Forum </th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Sporocil</th>
+       <th class="cell-stat text-center hidden-xs hidden-sm">Zadnje sporocilo</th>
+       <th></th>
+
+    </tr>
+</thead>
+<tbody>
+    {% for forum in forums %}
+        <tr>
+            <td {% if forloop.last %}class="last"{% endif %}>
+               <h4><div class="title text-center hidden-xs hidden-sm"> <a href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
+
+
+            </td>
+
+            <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
+
+            <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
+
+                {{ forum.last_post.short|linebreaksbr }}
+            </td>
+
+             <td class="text-center hidden-xs hidden-sm {% if forloop.last %}last{% endif %} ">
+
+                 <a class="btn btn-primary" href="{% url 'subforum' forum.pk %}">VIEW</a>
+
+             </td>
+
+        </tr>
+
+    {% endfor %}
+</tbody>
+</table>
+</div>
+    </div>
+
+{% endblock %}

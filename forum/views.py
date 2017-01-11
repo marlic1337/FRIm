@@ -5,7 +5,10 @@ from django.views.generic import ListView,DetailView
 from django.core.paginator import *
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from .forms import PostForm,PostEditForm
+from .forms import PostForm,PostEditForm,SubForm
+from classes.models import Predmet
+from django.contrib.auth.decorators import login_required
+from classes.views import parseUrnikVpisna
 
 # Create your views here.
 
@@ -22,10 +25,45 @@ def make_paginator(request,items,num_items):
 
 
 
+class PredmetList(ListView):
+    model = Predmet
+    template_name = "forum/forum_list.html"
+
+
+def populateDB():
+    predmeti = Predmet.objects.all()
+    for predmet in predmeti:
+        Forum.objects.create(title=predmet.predmet_name,predmet_id=predmet)
+
+
+def populateSubscriptions(request):
+    seznam = parseUrnikVpisna(request.user.studentId)
+    st = set()
+    for i in seznam:
+        st.add(Predmet.objects.get(predmet_id=i.subjectId).predmet_id)
+    for i in st:
+        Subscriptions.objects.create(user=request.user,forum=Forum.objects.get(predmet_id=i))
+
+
+
+
 def index(request):
+    if Forum.objects.all().count() == 0:
+        populateDB()
     forumi = Forum.objects.all()
+    forumi = make_paginator(request, forumi, 20)
     return render(request, 'forum/forums.html', {"forums" : forumi})
     #return HttpResponse("<h2>HEY</h2>")
+
+@login_required
+def subscribed(request):
+    if request.user.is_authenticated:
+        if Subscriptions.objects.filter(user=request.user).count()==0:
+            populateSubscriptions(request)
+        forums = Forum.objects.filter(subscriptions__user=request.user).distinct("pk")
+        forums = make_paginator(request, forums, 20)
+        return render(request, 'forum/subscribed.html', {"forums": forums, "pk": 0})
+
 
 def forum(request,pk=1):
     forums = Forum.objects.filter(forum=pk).order_by("-time")
@@ -36,7 +74,22 @@ def forum(request,pk=1):
 def subforum(request,pk=1):
     threads = Thread.objects.filter(forum=pk).order_by("-time")
     threads = make_paginator(request,threads,15)
-    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk})
+    forum = Forum.objects.get(id=pk)
+    if request.user.is_authenticated:
+        if Subscriptions.objects.filter(user=request.user,forum=forum).exists():
+            sub = True
+        else:
+            sub = False
+    else:
+        sub=False
+    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum" : forum, "sub":sub})
+
+def predmet(request,pk):
+    forum = Forum.objects.get(predmet_id=pk)
+    threads = Thread.objects.filter(forum=forum).order_by("-time")
+    threads = make_paginator(request,threads,15)
+    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum":forum})
+
 
 
 def thread(request,pk=1):
@@ -45,6 +98,22 @@ def thread(request,pk=1):
     title = Thread.objects.get(id=pk).title
     return render(request, 'forum/post_list.html', {"posts" : posts, "pk" : pk, "title" : title})
 
+
+@login_required
+def subscribe_to_forum(request):
+    p = request.POST
+    form = SubForm(p)
+    if form.is_valid():
+        if p["sub"] == "YES":
+            Subscriptions.objects.create(user=request.user,forum=Forum.objects.get(id=p["forum"]))
+        if p["sub"] == "NO":
+            Subscriptions.objects.filter(user=request.user,forum=p["forum"]).delete()
+    else:
+        return HttpResponseForbidden("Not valid form")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
 def postForm(request,ptype,id=1):
     body=""
     if ptype == "new_thread":
@@ -63,6 +132,7 @@ def postForm(request,ptype,id=1):
             return HttpResponseForbidden()
     return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id}),"body":body,"edit" : ptype=="edit"})
 
+@login_required
 def new_thread(request,id):
     p = request.POST
     form = PostForm(p)
@@ -75,6 +145,7 @@ def new_thread(request,id):
         return HttpResponseForbidden()
     return HttpResponseRedirect(reverse('subforum',kwargs={'pk':id}))
 
+@login_required
 def reply(request,id):
     p = request.POST
     form = PostForm(p)
@@ -86,6 +157,7 @@ def reply(request,id):
         return HttpResponseForbidden()
     return HttpResponseRedirect(reverse('thread',kwargs={'pk':id}))
 
+@login_required
 def edit(request,id):
     form = PostEditForm(request.POST)
     p = request.POST

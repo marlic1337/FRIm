@@ -20,7 +20,7 @@
         {% for u in urnik %}
             {% if u.day == 'ponedeljek' %}
                 <ul class="list-group">
-                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum/predmet/{{ u.subjectId }}" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -31,7 +31,7 @@
         {% for u in urnik %}
             {% if u.day == 'torek' %}
                 <ul class="list-group">
-                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum/predmet/{{ u.subjectId }}" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -42,7 +42,7 @@
         {% for u in urnik %}
             {% if u.day == 'sreda' %}
                 <ul class="list-group">
-                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum/predmet/{{ u.subjectId }}" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -53,7 +53,7 @@
         {% for u in urnik %}
             {% if u.day == 'cetrtek' %}
                 <ul class="list-group">
-                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum/predmet/{{ u.subjectId }}" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}
@@ -64,7 +64,7 @@
         {% for u in urnik %}
             {% if u.day == 'petek' %}
                 <ul class="list-group">
-                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
+                    <li class="list-group-item {{ u.type }}"><div style="overflow: auto"><div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"> {{ u.time }} - {{ u.subjectName }}<br><div style="padding-left: 50px; font-size: 85%;">{{ u.type }}, {{ u.classroom }}</div></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 8px;"><a style="float: right;" href="/forum/predmet/{{ u.subjectId }}" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></div></div></li>
                 </ul>
             {% endif %}
         {% endfor %}

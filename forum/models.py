@@ -5,14 +5,16 @@ from django.contrib import admin
 from string import join
 
 from User.models import CustomUser as MyUser
-
+from classes.models import Predmet
 
 
 # Create your models here.
 
 
 class Forum(models.Model):
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
+    predmet_id = models.ForeignKey(Predmet,blank=True,null=True,unique=True)
+
 
     def __unicode__(self):
         return self.title
@@ -74,23 +76,6 @@ class Post(models.Model):
         s = self.created_by.logo_url()
         return s
 
-
-
-##Admin
-
-class ForumAdmin(admin.ModelAdmin):
-    pass
-
-
-class ThreadAdmin(admin.ModelAdmin):
-    list_display = ["title", "forum", "created_by", "time"]
-    list_filter = ["forum","created_by"]
-
-class PostAdmin(admin.ModelAdmin):
-    search_fields = ["title", "created_by"]
-    list_display = ["title","thread", "created_by","time"]
-
-
-admin.site.register(Forum,ForumAdmin)
-admin.site.register(Thread,ThreadAdmin)
-admin.site.register(Post,PostAdmin)
+class Subscriptions(models.Model):
+    user = models.ForeignKey(MyUser)
+    forum = models.ForeignKey(Forum)
