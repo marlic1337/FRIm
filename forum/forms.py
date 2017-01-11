@@ -24,3 +24,6 @@ class PostEditForm(forms.Form):
 class SubForm(forms.Form):
     sub = forms.CharField(max_length=5)
     forum = forms.CharField(max_length=10)
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100)
