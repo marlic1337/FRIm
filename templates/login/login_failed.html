@@ -36,19 +36,19 @@
       <div class="jumbotron">
     {% ifequal error 'noStudentId'%}
         <h1>Neuspesna prijava</h1>
-        <h2>Prijava ni uspela ker nimate nastavljene vpisne stevilke na spletni ucilnici FRI.</h2>
-        <p>Vpisno stevilko nastavite v nastavitvah uporabniskega racuna(<a href="https://ucilnica.fri.uni-lj.si/user/edit.php">Uredi profil</a> -> Neobvezno -> Identifikacijska stevilka)</p>
+        <h2>Prijava ni uspela, ker nimate nastavljene vpisne številke na spletni ucilnici FRI.</h2>
+        <p>Vpisno številko nastavite v nastavitvah uporabniškega računa(<a href="https://ucilnica.fri.uni-lj.si/user/edit.php">Uredi profil</a> -> Neobvezno -> Identifikacijska številka)</p>
     {% endifequal %}
 
     {% ifequal error 'incorrectCredentials' %}
-        <h1>Neuspesna prijava</h1>
-        <h2>Vnesli ste napacne podatke</h2>
-        <p>Ce ste pozabili svoje podatke, jih lahko obnovite <a href="https://id.uni-lj.si/index.php?action=resetpass">tukaj</a>.</p>
+        <h1>Neuspešna prijava</h1>
+        <h2>Vnesli ste napačne podatke</h2>
+        <p>Če ste pozabili svoje podatke, jih lahko obnovite <a href="https://id.uni-lj.si/index.php?action=resetpass">tukaj</a>.</p>
     {% endifequal %}
 
     {% ifequal error 'ucilnicaDown' %}
-        <h1>Neuspesna prijava</h1>
-        <h2>Trenutno vas ne moremo prijaviti ker se spletna ucilnica FRI ne odziva.</h2>
+        <h1>Neuspešna prijava</h1>
+        <h2>Trenutno vas ne moremo prijaviti, ker se spletna ucilnica FRI ne odziva.</h2>
         <p>Prosimo poskusite kasneje ali pa kontaktirajte administratorja spletne ucilnice FRI.</p>
     {% endifequal %}
     </div>
