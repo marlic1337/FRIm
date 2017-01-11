@@ -12,8 +12,6 @@ from classes.models import Predmet
 from User.models import CustomUser
 from .forms import UploadFileForm, UpdateFileForm, SearchForm
 
-import operator
-
 
 def index(request):
     subjects = Predmet.objects.all()
