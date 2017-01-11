@@ -52,7 +52,7 @@ def index(request):
         populateDB()
     forumi = Forum.objects.all()
     forumi = make_paginator(request, forumi, 20)
-    return render(request, 'forum/forums.html', {"forums" : forumi})
+    return render(request, 'forum/forums.html', {"forums" : forumi, 'active_nav': 'forum'})
     #return HttpResponse("<h2>HEY</h2>")
 
 @login_required
@@ -62,13 +62,13 @@ def subscribed(request):
             populateSubscriptions(request)
         forums = Forum.objects.filter(subscriptions__user=request.user).distinct("pk")
         forums = make_paginator(request, forums, 20)
-        return render(request, 'forum/subscribed.html', {"forums": forums, "pk": 0})
+        return render(request, 'forum/subscribed.html', {"forums": forums, "pk": 0, 'active_nav': 'forum'})
 
 
 def forum(request,pk=1):
     forums = Forum.objects.filter(forum=pk).order_by("-time")
     forums = make_paginator(request,forums,20)
-    return render(request, 'forum/forums.html', {"forums" : forums, "pk" : pk})
+    return render(request, 'forum/forums.html', {"forums" : forums, "pk" : pk, 'active_nav': 'forum'})
 
 
 def subforum(request,pk=1):
@@ -82,21 +82,22 @@ def subforum(request,pk=1):
             sub = False
     else:
         sub=False
-    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum" : forum, "sub":sub})
+    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum" : forum, "sub":sub, 'active_nav': 'forum'})
 
 def predmet(request,pk):
     forum = Forum.objects.get(predmet_id=pk)
     threads = Thread.objects.filter(forum=forum).order_by("-time")
     threads = make_paginator(request,threads,15)
-    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum":forum})
+    return render(request, 'forum/thread_list.html', {"subforum" : threads, "pk" : pk, "forum":forum, 'active_nav': 'forum'})
 
 
 
 def thread(request,pk=1):
     posts = Post.objects.filter(thread=pk).order_by("time")
+    forumID = Thread.objects.get(id=pk).forum.pk
     posts = make_paginator(request,posts,15)
     title = Thread.objects.get(id=pk).title
-    return render(request, 'forum/post_list.html', {"posts" : posts, "pk" : pk, "title" : title})
+    return render(request, 'forum/post_list.html', {"posts" : posts, "pk" : pk, "title" : title, 'active_nav': 'forum' ,"forumID" : forumID })
 
 
 @login_required
@@ -130,7 +131,7 @@ def postForm(request,ptype,id=1):
             body = post.body
         else:
             return HttpResponseForbidden()
-    return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id}),"body":body,"edit" : ptype=="edit"})
+    return render(request, "forum/post.html", {"title" : title , "subject" : subject, "action":reverse(ptype, kwargs={'id':id}),"body":body,"edit" : ptype=="edit", 'active_nav': 'forum'})
 
 @login_required
 def new_thread(request,id):

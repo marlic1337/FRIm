@@ -3,9 +3,22 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib import admin
 from string import join
+from django.utils import timezone
+
 
 from User.models import CustomUser as MyUser
 from classes.models import Predmet
+
+from datetime import datetime
+import time
+
+
+#Konverzija casa
+def datetime_from_utc_to_local(utc_datetime):
+    now_timestamp = time.time()
+    offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+    return utc_datetime + offset
+
 
 
 # Create your models here.
@@ -52,8 +65,7 @@ class Thread(models.Model):
 
     def last_post(self):
         if self.post_set.count():
-            return  self.post_set.order_by("time")[0]
-
+            return  self.post_set.order_by("-time")[0]
 
 
 
@@ -69,7 +81,7 @@ class Post(models.Model):
         return u"%s - %s - %s " % (self.created_by, self.thread, self.title)
 
     def short(self):
-        return u"V temi: %s \n %s %s \n %s " % (self.thread.title, self.created_by.first_name,self.created_by.last_name, self.time.strftime("%Y-%m-%d %H:%m"))
+        return u"V temi: %s \n %s %s \n %s " % (self.thread.title, self.created_by.first_name,self.created_by.last_name, datetime_from_utc_to_local(self.time).strftime("%Y-%m-%d %H:%M"))
 
     short.allow_tags = True
     def slika(self):

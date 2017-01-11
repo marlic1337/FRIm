@@ -4,11 +4,10 @@
 {% block content  %}
 
 <!-- Posts -->
-
-
     <div class="row">
         <div class="col-md-4">
-            <a id="new_topic" class="btn btn-default pull-left" href=" {{request.META.HTTP_REFERER}}   "> Nazaj</a>
+            <a id="new_topic" class="btn btn-default pull-left" href=" {%  url 'subforum' forumID %}   "> Nazaj</a>
+
         </div>
         <div class="col-md-4">
             <h2>{{ title }}</h2>
