@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<label>Za ustvarjanje ponudbe morate izbrati ustrezen termin.</label><br><br>
+<a href="{% url 'market:createoffer' subjectId %}">Nazaj</a>
+{% endblock %}

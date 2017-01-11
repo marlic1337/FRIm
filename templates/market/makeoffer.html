@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>Izberi predmet:</p>
+<ul>
+    {% for class in subjects %}
+        <li><a href="{% url 'market:createoffer' class.predmet_id %}">{{ class.predmet_name }}</a></li>
+    {% endfor %}
+</ul>
+
+<br>
+<a href="{% url 'market:index' %}">Nazaj</a>
+{% endblock %}

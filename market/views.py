@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.utils.encoding import smart_text
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
@@ -10,7 +14,7 @@ from .models import PonudbaStudenta
 
 
 def index(request):
-    context = { }
+    context = {'active_nav': 'market'}
 
     return render(request, 'market/index.html', context)
 
@@ -24,6 +28,7 @@ def makeoffer(request):
             subjects.append(predmet)
 
     context = {
+        'active_nav': 'market',
         'subjects': subjects
     }
     return render(request, 'market/makeoffer.html', context)
@@ -60,6 +65,7 @@ def createoffer(request, subjectId):
             labs_list.append(l)
 
     context = {
+        'active_nav': 'market',
         'id': user.studentId,
         'subject': subject,
         'offered_class': offered_class,
@@ -76,6 +82,7 @@ def myoffers(request):
     offers = user.ponudbastudenta_set.all()
 
     context = {
+        'active_nav': 'market',
         'offers': offers
     }
 
@@ -90,12 +97,15 @@ def migrateOffer(request):
         wish = request.POST['choice']
     except KeyError:
         subjectId = Predmet.objects.get(predmet_name=subject).predmet_id
-        return render(request, 'market/nochoice.html', {'subjectId':subjectId})
+        return render(request, 'market/nochoice.html', {'active_nav': 'market','subjectId':subjectId})
     else:
-        user.ponudbastudenta_set.create(studentSubject=subject, studentOffer=offeredClass, studentWish=wish, accepted=False, acceptedBy="0")
+        context = {'active_nav': 'market',}
 
-        context = {}
-        return render(request, 'market/offercreated.html', context)
+        if request.user.ponudbastudenta_set.filter(studentSubject=subject).count() == 0:
+            user.ponudbastudenta_set.create(studentSubject=subject, studentOffer=offeredClass, studentWish=wish, accepted=False, acceptedBy="0")
+            return render(request, 'market/offercreated.html', context)
+        else:
+            return render(request, 'market/oneoffer.html', context)
 
 
     #return HttpResponseRedirect(reverse('market:myoffers', args=()))
@@ -106,6 +116,7 @@ def alloffers(request):
     #offers = PonudbaStudenta.objects.all()
 
     context = {
+        'active_nav': 'market',
         'offers': offers
     }
 
@@ -117,12 +128,17 @@ def offeraccepted(request):
     offer.acceptedBy = request.user.studentId
     offer.save()
 
-    context = {}
+    context = {
+        'active_nav': 'market',
+    }
 
     return render(request, 'market/offeraccepted.html', context)
 
 def nochoice(request):
-    return render(request, 'market/nochoice.html', {})
+    return render(request, 'market/nochoice.html', {'active_nav': 'market'})
+
+def oneoffer(request):
+    return render(request, 'market/oneoffer.html', {'active_nav': 'market'})
 
 def timetable(request):
     user = request.user
@@ -148,8 +164,32 @@ def timetable(request):
         u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
         u.type = type[u.type]
 
+        unicode_text = smart_text('{}, {}; {}; {}'.format(u.day, u.time, u.classroom, u.teacher), encoding='utf-8', strings_only=False, errors='strict')
+        #offerString = "{}, {}; {}; {}".format(u.time, u.day, u.classroom, u.teacher)
+
+
+        try:
+           myAcceptedOffer = PonudbaStudenta.objects.get(user=request.user, studentOffer=unicode_text, accepted=True)
+
+           if myAcceptedOffer.accepted:
+               u.day = myAcceptedOffer.studentWish.split(';')[0].split(', ')[0]
+               u.time = myAcceptedOffer.studentWish.split(';')[0].split(', ')[1]
+        except PonudbaStudenta.DoesNotExist:
+            pass
 
     context = {
+        'active_nav': 'market',
         'urnik': urnik
     }
     return render(request, 'market/timetable.html', context)
+
+def deleteOffer(request):
+    PonudbaStudenta.objects.get(pk=request.POST['offer']).delete()
+
+    offers = request.user.ponudbastudenta_set.all()
+    context = {
+        'active_nav': 'market',
+        'offers': offers
+    }
+
+    return render(request, 'market/deleteoffer.html', context)

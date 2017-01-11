@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if labsListLength != 0 %}
+
+    <form action="{% url 'market:migrateOffer' %}" method="post">
+        {% csrf_token %}
+        <label>Vpisna številka: <small>{{ id }}</small></label><br><br>
+
+        <label for="subject"><b>Predmet:</b> <small>{{ subject }}</small></label>
+        <input type="hidden" id="subject" name="subject" value="{{ subject }}" size="35"/><br><br>
+
+        <label for="classInfo"><b>Trenutni termin vaj:</b><br><small>{{ offered_class.day }}, {{ offered_class.time }}<br>{{ classroom }}<br>{{ teacher }}</small></label>
+        <input type="hidden" id="classInfo" name="classInfo" value="{{ offered_class.day }}, {{ offered_class.time }}; {{ classroom }}; {{ teacher }}" size="35"/><br><br>
+
+        <label><b>Menjam za:</b></label><br>
+        {% for l in labs %}
+            <input  type="radio" name="choice" value="{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}">{{ l.day }}, {{ l.time }}; {{ l.classroom }}; {{ l.teacher }}<br>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Potrdi" />
+    </form>
+
+    <br>
+    <a href="{% url 'market:timetable' %}" target="_blank">Moj FRIm urnik</a>
+
+    <br>
+    <a href="https://urnik.fri.uni-lj.si/timetable/fri-2016_2017-zimski-drugi-teden/allocations?student={{ id }}" target="_blank">Moj FRI urnik</a>
+
+    <br>
+    <a href="{% url 'market:makeoffer' %}">Nazaj</a>
+
+{% else %}
+
+    <p>Ta predmet ima samo 1 termin vaj, zato ustvarjanje ponudbe za ta predmet ni mogoče.</p>
+    <br>
+    <a href="{% url 'market:makeoffer' %}">Nazaj</a>
+
+{% endif %}
+{% endblock %}
+

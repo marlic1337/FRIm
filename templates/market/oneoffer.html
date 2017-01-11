@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<label>Za vsak predmet lahko ustvarite samo 1 ponudbo.</label><br><br>
+<a href="{% url 'market:myoffers' %}">Moje ponudbe</a> <br>
+{% endblock %}
