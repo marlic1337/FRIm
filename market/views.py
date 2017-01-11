@@ -120,10 +120,15 @@ def alloffers(request):
     user = request.user
     offers = PonudbaStudenta.objects.exclude(user=user, accepted=True)
     #offers = PonudbaStudenta.objects.all()
-
+    query_text = None
+    if request.method == 'GET' and 'query' in request.GET.keys():
+        query_text = request.GET['query']
+        for string in query_text.split(" "):
+            offers = offers.filter(studentSubject__icontains=string)
     context = {
         'active_nav': 'market',
-        'offers': offers
+        'offers': offers,
+        'query_text': query_text,
     }
 
     return render(request, 'market/alloffers.html', context)
