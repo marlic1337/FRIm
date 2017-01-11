@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import *
@@ -15,10 +15,11 @@ def login(request):
 
     form = LoginForm(request.POST)
     if not form.is_valid():
-        return render(request, 'login/loginFailed.html') #ERROR! invalid form request!
+        return render(request, 'login/loginFailedOld.html') #ERROR! invalid form request!
 
     mail = request.POST['mail']
     auth = User.CustomAuth.CustomAuth()
+
     try:
         request.POST['update_user']
         update = True
@@ -26,9 +27,15 @@ def login(request):
         update = False
 
     user = auth.authenticate(username=mail, password=request.POST['password'], update_user=update)
+
     if user is None:
-        return render(request, 'login/loginFailed.html')
+        return render(request, 'login/loginFailedOld.html')
+
+    if user.username == 'ucilnicaDown' or user.username == 'noStudentId' or user.username == 'incorrectCredentials':
+        return render(request, 'login/login_failed.html', {'error': str(user.username)})
+
     authLogin(request, user, 'User.CustomAuth.CustomAuth')
+
 
 
 

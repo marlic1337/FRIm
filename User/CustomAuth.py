@@ -13,7 +13,7 @@ class CustomAuth(object):
             if localuser.check_password(raw_password=password) and localuser.is_superuser:
                 return localuser
         except:
-            localuser = None
+            pass
 
         try:
             localuser = MyUser.objects.get(username=username)
@@ -25,8 +25,19 @@ class CustomAuth(object):
         response = requests.post(loginUrl, dict(username=username, password=password, verify=False, allow_redirects=False))
         cookies = dict(MoodleSession=response.request._cookies['MoodleSession'])
 
+        if response.status_code is 200:
+            try:
+                return MyUser.objects.get(username='ucilnicaDown')
+            except:
+                self.register('ucilnicaDown', 'ucilnica Down', 123123123, is_active=False)
+                return MyUser.objects.get(username='ucilnicaDown')
+
         if (response.url != 'https://ucilnica.fri.uni-lj.si/my/'):
-            return None
+            try:
+                return MyUser.objects.get(username='incorrectCredentials')
+            except:
+                self.register('incorrectCredentials', 'incorrect Credentials', 123123123, is_active=False)
+                return MyUser.objects.get(username='incorrectCredentials')
 
         if localuser is not None and not update_user:
             return localuser
@@ -46,8 +57,13 @@ class CustomAuth(object):
         studentId = re.findall(
             r'<input maxlength="255" size="25" name="idnumber" type="text" value="(\d{8})" id="id_idnumber" />',
             response.content)
-        if len(studentId[0]) is not 8:
-            return None
+
+        if len(studentId) == 0 or (len(studentId) != 0 and len(studentId[0]) != 8):
+            try:
+                return MyUser.objects.get(username='noStudentId')
+            except:
+                self.register('noStudentId', 'noStudent Id', 123123123, is_active=False)
+                return MyUser.objects.get(username='noStudentId')
         else:
             studentId = studentId[0]
 
@@ -69,12 +85,12 @@ class CustomAuth(object):
 
         return localuser
 
-    def register(self, mail, name, sid):
+    def register(self, mail, name, sid, is_active=True):
         flname = re.findall(r'^(.*?) (.*?)$', name)
         fname = flname[0][0]
         lname = flname[0][1]
         user = MyUser(username=mail, email='', password=str(uuid.uuid4()), first_name=fname, last_name=lname,
-                      studentId=sid)
+                      studentId=sid, is_active=is_active)
         return user.save()
 
     def get_user(self, user_id):
@@ -82,3 +98,4 @@ class CustomAuth(object):
             return MyUser.objects.get(pk=user_id)
         except MyUser.DoesNotExist:
             return None
+

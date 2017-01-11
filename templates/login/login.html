@@ -38,16 +38,8 @@
       <form action="/login" method="post" class="form-signin">
       {% endif %}
         {% csrf_token %}
-        <h2 class="form-signin-heading">Prijava</h2>
-        <!--<p>{{ form.non_field_errors }}</p>
-        <p>E-mail
-            {{ form.mail.errors }}
-            {{ form.mail }}
-        </p>
-        <p>Geslo
-            {{ form.password.errors }}
-            {{ form.password }}
-        </p>-->
+          <h1 class="form-signin-heading" style="color: #2e6da4!important; font-weight: bold">FRIm</h1>
+          <h3 class="form-signin-heading">Prijava</h3>
         <label for="inputEmail" class="sr-only">Email</label>
         <input type="text" maxlength="30" name="mail" id="id_mail" class="form-control" placeholder="Email" required autofocus>
         <label for="inputPassword" class="sr-only">Geslo</label>
