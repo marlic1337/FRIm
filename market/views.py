@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.encoding import smart_text
+from django.core.mail import send_mail
+from django.utils.html import format_html
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -128,6 +130,18 @@ def offeraccepted(request):
     offer.acceptedBy = request.user.studentId
     offer.save()
 
+    if offer.user.email != '':
+        email = offer.user.email
+    else:
+        email = offer.user
+
+    send_mail('Ponudba za predmet {} je bila sprejeta'.format(offer.studentSubject),
+              format_html('Pozdravljeni!\n\nVaša ponudba na FRIm za predmet {} je bila sprejeta.\n\nPrejšnji termin vaj: {}\nNovi termin vaj: {}'
+                '\n\nPosodobljen urnik si lahko ogledate na https://frimarket.herokuapp.com/urnik/.\n\n'
+                'Lep Pozdrav, FRIm'.format(offer.studentSubject, offer.studentOffer, offer.studentWish)),
+              'frim.mailer@gmail.com',
+              ['{}'.format(email)], fail_silently=False)
+
     context = {
         'active_nav': 'market',
     }
@@ -169,11 +183,22 @@ def timetable(request):
 
 
         try:
-           myAcceptedOffer = PonudbaStudenta.objects.get(user=request.user, studentOffer=unicode_text, accepted=True)
+            if PonudbaStudenta.objects.filter(user=request.user, studentOffer=unicode_text, accepted=True).count() == 1:
+                myAcceptedOffer = PonudbaStudenta.objects.get(user=request.user, studentOffer=unicode_text, accepted=True)
 
-           if myAcceptedOffer.accepted:
-               u.day = myAcceptedOffer.studentWish.split(';')[0].split(', ')[0]
-               u.time = myAcceptedOffer.studentWish.split(';')[0].split(', ')[1]
+                if myAcceptedOffer.accepted:
+                    u.day = myAcceptedOffer.studentWish.split('; ')[0].split(', ')[0]
+                    u.time = myAcceptedOffer.studentWish.split('; ')[0].split(', ')[1]
+                    u.classroom = myAcceptedOffer.studentWish.split('; ')[1]
+                    u.teacher = myAcceptedOffer.studentWish.split('; ')[2]
+            elif PonudbaStudenta.objects.filter(studentWish=unicode_text, accepted=True, acceptedBy=request.user.studentId).count() == 1:
+                myAcceptedOffer = PonudbaStudenta.objects.get(studentWish=unicode_text, accepted=True, acceptedBy=request.user.studentId)
+
+                if myAcceptedOffer.accepted:
+                    u.day = myAcceptedOffer.studentOffer.split('; ')[0].split(', ')[0]
+                    u.time = myAcceptedOffer.studentOffer.split('; ')[0].split(', ')[1]
+                    u.classroom = myAcceptedOffer.studentOffer.split('; ')[1]
+                    u.teacher = myAcceptedOffer.studentOffer.split('; ')[2]
         except PonudbaStudenta.DoesNotExist:
             pass
 
