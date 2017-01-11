@@ -16,6 +16,8 @@
             </div>
         </form>
         <br>
+    {% else %}
+        <p>Ni ponudb.</p>
     {% endif %}
 {% endfor %}
 <br>
@@ -32,8 +34,10 @@
             <label><b>Ponudbo sprejel:</b> <small>{{ o.acceptedBy }}</small></label><br>
         </div>
         <br>
+    {% else %}
+        <p>Ni ponudb.</p>
     {% endif %}
 {% endfor %}
 <br>
-<a href="{% url 'market:index' %}">Nazaj</a>
+<a class="btn btn-primary" role="button" href="{% url 'market:index' %}">Nazaj</a>
 {% endblock %}

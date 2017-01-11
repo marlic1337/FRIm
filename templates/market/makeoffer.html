@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>Izberi predmet:</p>
+<h4>Izberi predmet:</h4>
 <ul>
     {% for class in subjects %}
         <li><a href="{% url 'market:createoffer' class.predmet_id %}">{{ class.predmet_name }}</a></li>
@@ -9,5 +9,5 @@
 </ul>
 
 <br>
-<a href="{% url 'market:index' %}">Nazaj</a>
+<a class="btn btn-primary" role="button" href="{% url 'market:index' %}">Nazaj</a>
 {% endblock %}
