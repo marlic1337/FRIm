@@ -28,10 +28,9 @@ def index(request):
     context = {
         'user': request.user,
         'title': 'FRIm - Datoteke',
-        'navbar_active': 'None',
+        'active_nav': 'documents',
         'subjects': subjects,
         'query_text': query_text,
-        'active_nav': 'documents',
     }
     return render(request, 'documents/index.html', context)
 
@@ -57,12 +56,11 @@ def list(request, class_id):
     context = {
         'user': request.user,
         'title': 'FRIm - Datoteke ' + class_object.predmet_name,
-        'navbar_active': 'None',
+        'active_nav': 'documents',
         'class': class_object,
         'query_text': query_text,
         'documents': documents,
         'form': form,
-        'active_nav': 'documents',
     }
     return render(request, 'documents/list.html', context)
 
@@ -80,10 +78,9 @@ def upload(request, class_id):
     context = {
         'user': request.user,
         'title': 'FRIm - Prenesi datoteko',
-        'navbar_active': 'None',
+        'active_nav': 'documents',
         'class': class_object,
         'form': form,
-        'active_nav': 'documents',
     }
     return render(request, 'documents/upload.html', context)
 
@@ -97,11 +94,10 @@ def detail(request, document_id, class_id):
     context = {
         'user': request.user,
         'title': 'FRIm - Datoteka ' + document.title,
-        'navbar_active': 'None',
+        'active_nav': 'documents',
         'class': class_object,
         'document': document,
         'is_owner': is_owner,
-        'active_nav': 'documents',
     }
     return render(request, 'documents/detail.html', context)
 
@@ -141,10 +137,9 @@ def update(request, document_id, class_id):
     context = {
         'user': request.user,
         'title': 'FRIm - Posodobi datoteko',
-        'navbar_active': 'None',
+        'active_nav': 'documents',
         'class': class_object,
         'document': document,
         'form': form,
-        'active_nav': 'documents',
     }
     return render(request, 'documents/update.html', context)

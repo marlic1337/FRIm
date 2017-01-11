@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^user/', include('User.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^documents/', include('documents.urls')),
-    url(r'^classes/', include('classes.urls')),
+    url(r'^urnik/', include('classes.urls')),
     url(r'^forum/', include('forum.urls')),
     url(r'^market/', include('market.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

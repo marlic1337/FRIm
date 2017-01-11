@@ -59,9 +59,13 @@ def index(request):
         #u.teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
         u.type = type[u.type]
 
+    urnik_days = []
+    for cls in urnik:
+        urnik_days.append(cls.day)
 
     context = {
         'urnik': urnik,
+        'urnik_days': urnik_days,
         'all_classes': all_classes_sorted,
         'all_teachers': Profesor.objects.all(),
         'all_classrooms': Prostor.objects.all(),
