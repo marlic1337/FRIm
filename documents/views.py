@@ -31,6 +31,7 @@ def index(request):
         'navbar_active': 'None',
         'subjects': subjects,
         'query_text': query_text,
+        'active_nav': 'documents',
     }
     return render(request, 'documents/index.html', context)
 
@@ -61,6 +62,7 @@ def list(request, class_id):
         'query_text': query_text,
         'documents': documents,
         'form': form,
+        'active_nav': 'documents',
     }
     return render(request, 'documents/list.html', context)
 
@@ -81,6 +83,7 @@ def upload(request, class_id):
         'navbar_active': 'None',
         'class': class_object,
         'form': form,
+        'active_nav': 'documents',
     }
     return render(request, 'documents/upload.html', context)
 
@@ -98,6 +101,7 @@ def detail(request, document_id, class_id):
         'class': class_object,
         'document': document,
         'is_owner': is_owner,
+        'active_nav': 'documents',
     }
     return render(request, 'documents/detail.html', context)
 
@@ -141,5 +145,6 @@ def update(request, document_id, class_id):
         'class': class_object,
         'document': document,
         'form': form,
+        'active_nav': 'documents',
     }
     return render(request, 'documents/update.html', context)

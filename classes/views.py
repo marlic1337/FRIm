@@ -69,6 +69,7 @@ def index(request):
         'urnik_name': Urnik.objects.all()[0],
         'user': request.user,
         'title': 'FRIm Moj Urnik',
+        'active_nav': 'classes',
     }
     #return render(request, 'classes/index.html', context)
     return HttpResponse(template.render(context, request))

@@ -5,6 +5,7 @@ from django.core import validators
 from .forms import *
 from models import CustomUser as MyUser
 from models import SocialNetworks as sn
+from django.template import *
 
 # Create your views here.
 
@@ -13,9 +14,6 @@ def changeUserSettings(request):
     if not request.method == 'POST':
         form = ChangeUserSettings()
         title = 'Uporabniske nastavitve - ' + str(request.user.username)
-        #if request.user.email is 'emtpy@email.com':
-            #return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': ''})
-        #else:
 
         try:
             userlogourl = request.user.logo.url
