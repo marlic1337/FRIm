@@ -8,11 +8,11 @@
             <a id="new_topic" class="btn btn-default" href=" /forum/subscribed   "> Naročeni Forumi</a>
         </div>
         <div class="col-md-4 ">
-            <h2>Vsi Forumi:</h2>
+            <h3>Vsi Forumi:</h3>
         </div>
         <div class="col-md-4 ">
             <form action="{% url 'index' %}" method="POST"> {% csrf_token %}
-                 <input style="margin-bottom: 5px" type="text" class="form-control" id="searchbar" name="search" value="{{ subject }}">
+                 <input type="text" class="form-control" id="searchbar" name="search" value="{{ subject }}">
                 <input type="submit" value="Iskanje po predmetih" id="submit" class="btn btn-primary  pull-right" />
             </form>
         </div>
@@ -51,13 +51,12 @@
 
 <br/>
 <div id="list">
-<table border="0" cellpadding="4" width="100%" class="forum table-striped">
+<table border="0" cellpadding="4" width="100%" class="table table-striped">
 <thead>
     <tr>
-       <th class="cell-stat text-center  "> Forum </th>
-       <th class="cell-stat text-center  ">Sporocil</th>
-       <th class="cell-stat text-center  ">Zadnje sporocilo</th>
-       <th></th>
+       <th class="cell-stat text-center "> Forum </th>
+       <th class="cell-stat text-center ">Sporocil</th>
+       <th class="cell-stat text-center hidden-xs ">Zadnje sporocilo</th>
 
     </tr>
 </thead>
@@ -65,16 +64,16 @@
     {% for forum in forums %}
         <tr>
             <td {% if forloop.last %}class="last"{% endif %}>
-               <h4><div class="title text-center  "> <a style="font-size: 80%" href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
+               <h4><div class="title text-center "> <a href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
 
 
             </td>
 
-            <td class="text-center   {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
+            <td class="text-center  {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
 
-            <td class="text-center   {% if forloop.last %}last{% endif %} ">
+            <td class="text-center hidden-xs  {% if forloop.last %}last{% endif %} ">
 
-                <div style="font-size: 80%">{{ forum.last_post.short|linebreaksbr }}</div>
+                {{ forum.last_post.short|linebreaksbr }}
             </td>
 
              <td class="text-center   {% if forloop.last %}last{% endif %} ">

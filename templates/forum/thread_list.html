@@ -39,9 +39,9 @@
 <table border="0" cellpadding="4" width="100%" class="table-striped">
 <thead>
     <tr>
-       <th class="cell-stat text-center ">Tema</th>
-       <th class="cell-stat text-center ">Odgovorov</th>
-       <th class="cell-stat text-center ">Zadnji odgovor</th>
+       <th class="cell-stat text-center  ">Tema</th>
+       <th class="cell-stat text-center  ">Odgovorov</th>
+       <th class="cell-stat text-center  ">Zadnji odgovor</th>
        <th></th>
     </tr>
 </thead>
@@ -49,19 +49,19 @@
     {% for thread in subforum %}
         <tr>
             <td class="{% if forloop.last %}last{% endif %}">
-               <h4><div class="title text-center "> <a style="font-size: 80%" href="{% url 'thread' thread.id  %}">{{ thread.title }}</a> </h4>
+               <h4><div class="title text-center  "> <a href="{% url 'thread' thread.id  %}">{{ thread.title }}</a> </h4>
 
                 </div>
             </td>
 
-            <td class="text-center  {% if forloop.last %}last{% endif %}">{{ thread.num_replies }}</td>
+            <td class="text-center   {% if forloop.last %}last{% endif %}">{{ thread.num_replies }}</td>
 
-            <td class="text-center  {% if forloop.last %}last{% endif %} ">
+            <td class="text-center   {% if forloop.last %}last{% endif %} ">
 
-                <div style="font-size: 80%">{{ thread.last_post.short|linebreaksbr }}</div>
+                {{ thread.last_post.short|linebreaksbr }}
             </td>
 
-             <td class="text-center  {% if forloop.last %}last{% endif %} ">
+             <td class="text-center   {% if forloop.last %}last{% endif %} ">
 
                  <a class="btn btn-default" href="{% url 'thread' thread.id %}">Ogled</a>
 

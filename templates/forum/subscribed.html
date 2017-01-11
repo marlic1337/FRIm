@@ -9,7 +9,7 @@
             <a id="new_topic" class="btn btn-default pull-right" href=" /forum   "> Vsi Forumi</a>
         </div>
         <div class="col-md-10 ">
-            <h2>Forumi na katere ste prijavljeni:</h2>
+            <h3>Forumi na katere ste prijavljeni:</h3>
         </div>
 
     </div>
@@ -20,9 +20,9 @@
 <table border="0" cellpadding="4" width="100%" class="forum table-striped">
 <thead>
     <tr>
-       <th class="cell-stat text-center"> Forum </th>
-       <th class="cell-stat text-center">Sporocil</th>
-       <th class="cell-stat text-center">Zadnje sporocilo</th>
+       <th class="cell-stat text-center  "> Forum </th>
+       <th class="cell-stat text-center  ">Sporocil</th>
+       <th class="cell-stat text-center hidden-xs  ">Zadnje sporocilo</th>
        <th></th>
 
     </tr>
@@ -31,21 +31,21 @@
     {% for forum in forums %}
         <tr>
             <td {% if forloop.last %}class="last"{% endif %}>
-               <h4><div class="title text-center"> <a style="font-size: 80%" href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
+               <h4><div class="title text-center  "> <a href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
 
 
             </td>
 
-            <td class="text-center {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
+            <td class="text-center   {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
 
-            <td class="text-center {% if forloop.last %}last{% endif %} ">
+            <td class="text-center hidden-xs  {% if forloop.last %}last{% endif %} ">
 
-                <div style="font-size: 80%">{{ forum.last_post.short|linebreaksbr }}</div>
+                {{ forum.last_post.short|linebreaksbr }}
             </td>
 
-             <td class="text-center {% if forloop.last %}last{% endif %} ">
+             <td class="text-center   {% if forloop.last %}last{% endif %} ">
 
-                 <a class="btn btn-primary" href="{% url 'subforum' forum.pk %}">Poglej</a>
+                 <a class="btn btn-primary" href="{% url 'subforum' forum.pk %}">VIEW</a>
 
              </td>
 
