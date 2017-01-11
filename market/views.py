@@ -71,7 +71,7 @@ def createoffer(request, subjectId):
             try:
                 l.teacher = Profesor.objects.get(profesor_id=l.teachers[0]).profesor_name
             except:
-                teacher = Profesor.objects.get(profesor_id="Neznan").profesor_name
+                l.teacher = Profesor.objects.get(profesor_id="Neznan").profesor_name
             labs_list.append(l)
 
     context = {
