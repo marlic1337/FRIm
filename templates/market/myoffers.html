@@ -2,42 +2,47 @@
 
 {% block content %}
 <h2>Moje ponudbe</h2>
-{% for o in offers %}
-    {% if not o.accepted  %}
-        <form action="{% url 'market:deleteOffer' %}" method="post">
-            {% csrf_token %}
+{% if acceptedFalse %}
+    {% for o in acceptedFalse %}
+        {% if not o.accepted  %}
+            <form action="{% url 'market:deleteOffer' %}" method="post">
+                {% csrf_token %}
+                <div style="background-color:white;border-radius:10px;padding:15px;">
+                    <label><b>Vpisna številka:</b> <small>{{ o.user.studentId }}</small></label><br>
+                    <label><b>Predmet:</b> <small>{{ o.studentSubject }}</small></label><br>
+                    <label><b>Trenutni termin:</b> <small>{{ o.studentOffer }}</small></label><br>
+                    <label><b>Menjam za:</b> <small>{{ o.studentWish }}</small></label><br>
+                    <input class="btn btn-danger" role="button" type="submit" value="Odstrani ponudbo" />
+                    <input type="hidden" name="offer" value="{{ o.id }}"/>
+                </div>
+            </form>
+            <br>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>Ni ponudb</p>
+{% endif %}
+
+<br>
+<br>
+
+<h2>Sprejete ponudbe</h2>
+{% if acceptedTrue %}
+    {% for o in acceptedTrue %}
+        {% if o.accepted  %}
             <div style="background-color:white;border-radius:10px;padding:15px;">
                 <label><b>Vpisna številka:</b> <small>{{ o.user.studentId }}</small></label><br>
                 <label><b>Predmet:</b> <small>{{ o.studentSubject }}</small></label><br>
                 <label><b>Trenutni termin:</b> <small>{{ o.studentOffer }}</small></label><br>
                 <label><b>Menjam za:</b> <small>{{ o.studentWish }}</small></label><br>
-                <input type="submit" value="Odstrani ponudbo" />
-                <input type="hidden" name="offer" value="{{ o.id }}"/>
+                <label><b>Ponudbo sprejel:</b> <small>{{ o.acceptedBy }}</small></label><br>
             </div>
-        </form>
-        <br>
-    {% else %}
-        <p>Ni ponudb.</p>
-    {% endif %}
-{% endfor %}
-<br>
-<br>
-
-<h2>Sprejete ponudbe</h2>
-{% for o in offers %}
-    {% if o.accepted  %}
-        <div style="background-color:white;border-radius:10px;padding:15px;">
-            <label><b>Vpisna številka:</b> <small>{{ o.user.studentId }}</small></label><br>
-            <label><b>Predmet:</b> <small>{{ o.studentSubject }}</small></label><br>
-            <label><b>Trenutni termin:</b> <small>{{ o.studentOffer }}</small></label><br>
-            <label><b>Menjam za:</b> <small>{{ o.studentWish }}</small></label><br>
-            <label><b>Ponudbo sprejel:</b> <small>{{ o.acceptedBy }}</small></label><br>
-        </div>
-        <br>
-    {% else %}
-        <p>Ni ponudb.</p>
-    {% endif %}
-{% endfor %}
+            <br>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>Ni sprejetih ponudb</p>
+{% endif %}
 <br>
 <a class="btn btn-primary" role="button" href="{% url 'market:index' %}">Nazaj</a>
 {% endblock %}

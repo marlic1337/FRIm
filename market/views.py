@@ -84,11 +84,14 @@ def createoffer(request, subjectId):
 @login_required
 def myoffers(request):
     user = request.user
-    offers = user.ponudbastudenta_set.all()
+    acceptedTrue = user.ponudbastudenta_set.filter(accepted=True)
+    acceptedFalse = user.ponudbastudenta_set.filter(accepted=False)
+
 
     context = {
         'active_nav': 'market',
-        'offers': offers
+        'acceptedTrue': acceptedTrue,
+        'acceptedFalse': acceptedFalse,
     }
 
     return render(request, 'market/myoffers.html', context)
