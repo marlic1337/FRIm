@@ -5,7 +5,7 @@ from django.views.generic import ListView,DetailView
 from django.core.paginator import *
 from django.urls import reverse
 from django.http import HttpResponseForbidden
-from .forms import PostForm,PostEditForm,SubForm
+from .forms import PostForm,PostEditForm,SubForm,SearchForm
 from classes.models import Predmet
 from django.contrib.auth.decorators import login_required
 from classes.views import parseUrnikVpisna
@@ -54,6 +54,32 @@ def index(request):
     forumi = make_paginator(request, forumi, 20)
     return render(request, 'forum/forums.html', {"forums" : forumi, 'active_nav': 'forum'})
     #return HttpResponse("<h2>HEY</h2>")
+
+
+def search(request):
+    if Forum.objects.all().count() == 0:
+        populateDB()
+    if request.method == "POST":
+        p = request.POST
+        form = SearchForm(p)
+        if form.is_valid():
+            query_text = p["search"]
+            forumi = Forum.objects.all()
+            for string in query_text.split(" "):
+                forumi = forumi.filter(title__icontains=string)
+            forumi = make_paginator(request, forumi, 20)
+            return render(request, 'forum/forums.html', {"forums" : forumi, 'active_nav': 'forum'})
+        else:
+            return HttpResponseRedirect(reverse('index'))
+
+    else:
+        forumi = Forum.objects.all()
+        forumi = make_paginator(request, forumi, 20)
+        return render(request, 'forum/forums.html', {"forums": forumi, 'active_nav': 'forum'})
+    #return HttpResponse("<h2>HEY</h2>")
+
+
+
 
 @login_required
 def subscribed(request):

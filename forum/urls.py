@@ -7,7 +7,7 @@ from . import views
 
 urlpatterns = [
 
-    url(r'^$', views.index,name='index'),
+    url(r'^$', views.search,name='index'),
     url(r'^predmet/(?P<pk>\w+)/$', views.predmet, name='predmet'),
     url(r'^subforum/(?P<pk>\d+)/$', views.subforum,name='subforum'),
     url(r'^thread/(?P<pk>\d+)/$', views.thread,name='thread'),

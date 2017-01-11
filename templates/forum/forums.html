@@ -7,10 +7,15 @@
                 <div class="col-md-4 ">
             <a id="new_topic" class="btn btn-default" href=" /forum/subscribed   "> Naročeni Forumi</a>
         </div>
-        <div class="col-md-8 ">
+        <div class="col-md-4 ">
             <h2>Vsi Forumi:</h2>
         </div>
-
+        <div class="col-md-4 ">
+            <form action="{% url 'index' %}" method="POST"> {% csrf_token %}
+                 <input type="text" class="form-control" id="searchbar" name="search" value="{{ subject }}">
+                <input type="submit" value="Iskanje po predmetih" id="submit" class="btn btn-primary  pull-right" />
+            </form>
+        </div>
     </div>
 
 
