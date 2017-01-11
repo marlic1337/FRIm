@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['email', 'studentId']
 
     logo = models.ImageField(upload_to='profile_pic', width_field='logo_width', height_field='logo_height', null=True,
-                             blank=True, default='profile_pic/default_user.png')
+                             blank=True)
     logo_width = models.PositiveIntegerField(null=True)
     logo_height = models.PositiveIntegerField(null=True)
 

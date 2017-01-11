@@ -16,7 +16,13 @@ def changeUserSettings(request):
         #if request.user.email is 'emtpy@email.com':
             #return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': ''})
         #else:
-        return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': str(request.user.email)})
+
+        try:
+            userlogourl = request.user.logo.url
+        except:
+            userlogourl = '/media/profile_pic/default_user.png'
+
+        return render(request, 'User/user_settings.html', {'form': form, 'title': title, 'notificationsEmail': str(request.user.email), 'userlogourl': userlogourl})
 
     form = ChangeUserSettings(request.POST, request.FILES)
 
