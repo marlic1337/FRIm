@@ -174,22 +174,22 @@ def parseUrnik():
     try:
         Predmet.objects.get(predmet_name='Neznan Predmet')
     except:
-        Predmet(predmet_name='Neznan Predmet').save()
+        Predmet(predmet_id='Neznan', predmet_name='Neznan Predmet').save()
 
     try:
         Profesor.objects.get(profesor_name='Neznan Profesor')
     except:
-        Profesor(profesor_name='Neznan Profesor').save()
+        Profesor(profesor_id='Neznan', profesor_name='Neznan Profesor').save()
 
     try:
         Prostor.objects.get(prostor_name='Neznan Prostor')
     except:
-        Prostor(prostor_name='Neznan Prostor').save()
+        Prostor(prostor_id='Neznan', prostor_name='Neznan Prostor').save()
 
     try:
         Skupina.objects.get(skupina_name='Neznana Skupina')
     except:
-        Skupina(skupina_name='Neznana Skupina').save()
+        Skupina(skupina_id='Neznan', skupina_name='Neznana Skupina').save()
 
     return True
 
