@@ -19,7 +19,13 @@ def login(request):
 
     mail = request.POST['mail']
     auth = User.CustomAuth.CustomAuth()
-    user = auth.authenticate(username=mail, password=request.POST['password'])
+    try:
+        request.POST['update_user']
+        update = True
+    except:
+        update = False
+
+    user = auth.authenticate(username=mail, password=request.POST['password'], update_user=update)
     if user is None:
         return render(request, 'login/loginFailed.html')
     authLogin(request, user, 'User.CustomAuth.CustomAuth')

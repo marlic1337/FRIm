@@ -7,7 +7,7 @@ import requests
 import uuid
 
 class CustomAuth(object):
-    def authenticate(self, username=None, password=None):
+    def authenticate(self, username=None, password=None, update_user=False):
         try:
             localuser = MyUser.objects.get(username=username)
             if localuser.check_password(raw_password=password) and localuser.is_superuser:
@@ -28,7 +28,7 @@ class CustomAuth(object):
         if (response.url != 'https://ucilnica.fri.uni-lj.si/my/'):
             return None
 
-        if localuser is not None:
+        if localuser is not None and not update_user:
             return localuser
 
         # parse name and profile id
@@ -51,7 +51,17 @@ class CustomAuth(object):
         else:
             studentId = studentId[0]
 
-        self.register(username, name, studentId)
+        if localuser is None:
+            self.register(username, name, studentId)
+        else:
+            flname = re.findall(r'^(.*?) (.*?)$', name)
+            fname = flname[0][0]
+            lname = flname[0][1]
+            localuser.first_name = fname
+            localuser.last_name = lname
+            localuser.studentId = studentId
+            localuser.save()
+
         try:
             localuser = MyUser.objects.get(username=username)
         except:
