@@ -11,10 +11,10 @@
     </div>
             <div class="col-md-4 ">
 
-        <h2>{{ forum.title }} </h2>
+        <h4>{{ forum.title }} </h4>
             </div>
         <div class="col-md-4 ">
-            <a id="new_topic" class="btn btn-default pull-right" href=" {% url 'post' ptype="new_thread" id=pk %}   "> Nova Tema</a>
+            <a style="margin-bottom: 5px" id="new_topic" class="btn btn-default pull-right" href=" {% url 'post' ptype="new_thread" id=pk %}   "> Nova Tema</a>
 
             {% if user.is_authenticated %}
                 <form action="{% url 'sub' %}" method="POST"> {% csrf_token %}
@@ -49,7 +49,7 @@
     {% for thread in subforum %}
         <tr>
             <td class="{% if forloop.last %}last{% endif %}">
-               <h4><div class="title text-center  "> <a href="{% url 'thread' thread.id  %}">{{ thread.title }}</a> </h4>
+               <h4><div class="title text-center  "> <a style="font-size: 80%" href="{% url 'thread' thread.id  %}">{{ thread.title }}</a> </h4>
 
                 </div>
             </td>
@@ -58,7 +58,7 @@
 
             <td class="text-center   {% if forloop.last %}last{% endif %} ">
 
-                {{ thread.last_post.short|linebreaksbr }}
+                <div style="font-size: 80%">{{ thread.last_post.short|linebreaksbr }}</div>
             </td>
 
              <td class="text-center   {% if forloop.last %}last{% endif %} ">

@@ -22,7 +22,7 @@
     <tr>
        <th class="cell-stat text-center  "> Forum </th>
        <th class="cell-stat text-center  ">Sporocil</th>
-       <th class="cell-stat text-center hidden-xs  ">Zadnje sporocilo</th>
+       <th class="cell-stat text-center   ">Zadnje sporocilo</th>
        <th></th>
 
     </tr>
@@ -31,16 +31,16 @@
     {% for forum in forums %}
         <tr>
             <td {% if forloop.last %}class="last"{% endif %}>
-               <h4><div class="title text-center  "> <a href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
+               <h4><div class="title text-center  "> <a style="font-size: 80%" href="{% url 'subforum' forum.id  %}">{{ forum.title }}</a> </h4>
 
 
             </td>
 
             <td class="text-center   {% if forloop.last %}last{% endif %}">{{ forum.num_posts }}</td>
 
-            <td class="text-center hidden-xs  {% if forloop.last %}last{% endif %} ">
+            <td class="text-center   {% if forloop.last %}last{% endif %} ">
 
-                {{ forum.last_post.short|linebreaksbr }}
+                <div style="font-size: 80%">{{ forum.last_post.short|linebreaksbr }}</div>
             </td>
 
              <td class="text-center   {% if forloop.last %}last{% endif %} ">
