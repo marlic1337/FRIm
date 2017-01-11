@@ -118,7 +118,7 @@ def migrateOffer(request):
 @login_required
 def alloffers(request):
     user = request.user
-    offers = PonudbaStudenta.objects.exclude(user=user, accepted=True)
+    offers = PonudbaStudenta.objects.exclude(user=user).exclude(accepted=True)
     #offers = PonudbaStudenta.objects.all()
     query_text = None
     if request.method == 'GET' and 'query' in request.GET.keys():
