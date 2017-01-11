@@ -55,7 +55,10 @@ def createoffer(request, subjectId):
             offered_class = u
             offered_class.day = days[u.day[0:3]]
             classroom = Prostor.objects.get(prostor_id=u.classrooms[0]).prostor_name
-            teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+            try:
+                teacher = Profesor.objects.get(profesor_id=u.teachers[0]).profesor_name
+            except:
+                teacher = Profesor.objects.get(profesor_id="Neznan").profesor_name
             break
 
 
@@ -65,7 +68,10 @@ def createoffer(request, subjectId):
         l.day = days[l.day[0:3]]
         if not (l.day == offered_class.day and l.time == offered_class.time) and l.type == 'LV':
             l.classroom = Prostor.objects.get(prostor_id=l.classrooms[0]).prostor_name
-            l.teacher = Profesor.objects.get(profesor_id=l.teachers[0]).profesor_name
+            try:
+                l.teacher = Profesor.objects.get(profesor_id=l.teachers[0]).profesor_name
+            except:
+                teacher = Profesor.objects.get(profesor_id="Neznan").profesor_name
             labs_list.append(l)
 
     context = {
