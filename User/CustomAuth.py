@@ -25,7 +25,7 @@ class CustomAuth(object):
         response = requests.post(loginUrl, dict(username=username, password=password, verify=False, allow_redirects=False))
         cookies = dict(MoodleSession=response.request._cookies['MoodleSession'])
 
-        if response.status_code is 200:
+        if response.status_code is not 200:
             try:
                 return MyUser.objects.get(username='ucilnicaDown')
             except:
