@@ -45,7 +45,7 @@
 {% for post in posts %}
 
     <div class="row">
-       {% if forloop.counter|divisibleby:"2" %} {# is even #}
+       {% if not post.created_by == request.user %} {# is even #}
         <div class="col-sm-2">
             <div class="thumbnail"> <img src="{{ post.slika }}" /> </div>
         </div>
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </div>
-           {% if not forloop.counter|divisibleby:"2" %} {# is even #}
+           {% if  post.created_by == request.user %} {# is even #}
         <div class="col-sm-2">
             <div class="thumbnail"> <img src="{{ post.slika }}" /> </div>
         </div>
