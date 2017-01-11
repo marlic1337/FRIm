@@ -5,60 +5,66 @@
     <h2>Moj urnik</h2>
     <h5>Verzija urnika: {{ urnik_name }}</h5>
     <br>
-    <p><b>Ponedeljek:</b></p>
-    {% for u in urnik %}
-        {% if u.day == 'ponedeljek' %}
-            <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
-            </ul>
-        {% endif %}
-    {% endfor %}
-    <br>
+    {% if 'ponedeljek' in urnik_days %}
+        <p><b>Ponedeljek:</b></p>
+        {% for u in urnik %}
+            {% if u.day == 'ponedeljek' %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
-    <p><b>Torek:</b></p>
-    {% for u in urnik %}
-        {% if u.day == 'torek' %}
-            <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}". class="btn btn-xs">Dokumenti</a></p></li>
-            </ul>
-        {% endif %}
-    {% endfor %}
-    <br>
+    {% if 'torek' in urnik_days %}
+        <p><b>Torek:</b></p>
+        {% for u in urnik %}
+            {% if u.day == 'torek' %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
-    <p><b>Sreda:</b></p>
-    {% for u in urnik %}
-        {% if u.day == 'sreda' %}
-            <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
-            </ul>
-        {% endif %}
-    {% endfor %}
-    <br>
+    {% if 'sreda' in urnik_days %}
+        <p><b>Sreda:</b></p>
+        {% for u in urnik %}
+            {% if u.day == 'sreda' %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
-    <p><b>Četrtek:</b></p>
-    {% for u in urnik %}
-        {% if u.day == 'cetrtek' %}
-            <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
-            </ul>
-        {% endif %}
-    {% endfor %}
-    <br>
+    {% if 'cetrtek' in urnik_days %}
+        <p><b>Četrtek:</b></p>
+        {% for u in urnik %}
+            {% if u.day == 'cetrtek' %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
-    <p><b>Petek:</b></p>
-    {% for u in urnik %}
-        {% if u.day == 'petek' %}
-            <ul class="list-group">
-                <li class="list-group-item"><p>{{ u.time }}, {{ u.subjectName }}, {{ u.type }}; {{ u.classroom }}; {{ u.teacher }}<a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
-            </ul>
-        {% endif %}
-    {% endfor %}
-    <br>
+    {% if 'petek' in urnik_days %}
+        <p><b>Petek:</b></p>
+        {% for u in urnik %}
+            {% if u.day == 'petek' %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>{{ u.time }} - {{ u.subjectName }}, {{ u.type }}, {{ u.classroom }}<a style="float: right;" href="/forum" class="btn btn-xs">Forum</a><a style="float: right;" href="/documents/{{ u.subjectId }}" class="btn btn-xs">Dokumenti</a></p></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
+    <br>
     <h2>Vsi Predmeti</h2>
     <ul>
         {% for cls in all_classes %}
-        <li><a href="https://urnik.fri.uni-lj.si/timetable/{{ urnik_name }}/allocations?subject={{ cls.predmet_id }}">{{ cls.predmet_id }} - {{ cls.predmet_name }}</a></li>
+        <li>{{ cls.predmet_id }} - {{ cls.predmet_name }}  <a href="/forum" class="btn btn-xs">Forum</a><a href="/documents/{{ cls.predmet_id }}" class="btn btn-xs">Dokumenti</a></li>
         {% endfor %}
     </ul>
 
