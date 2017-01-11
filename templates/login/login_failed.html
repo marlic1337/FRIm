@@ -35,8 +35,8 @@
 
       <div class="jumbotron">
     {% ifequal error 'noStudentId'%}
-        <h1>Neuspesna prijava</h1>
-        <h2>Prijava ni uspela, ker nimate nastavljene vpisne številke na spletni ucilnici FRI.</h2>
+        <h1>Neušpesna prijava</h1>
+        <h2>Prijava ni uspela, ker nimate nastavljene vpisne številke na spletni učilnici FRI.</h2>
         <p>Vpisno številko nastavite v nastavitvah uporabniškega računa(<a href="https://ucilnica.fri.uni-lj.si/user/edit.php">Uredi profil</a> -> Neobvezno -> Identifikacijska številka)</p>
     {% endifequal %}
 
@@ -48,8 +48,8 @@
 
     {% ifequal error 'ucilnicaDown' %}
         <h1>Neuspešna prijava</h1>
-        <h2>Trenutno vas ne moremo prijaviti, ker se spletna ucilnica FRI ne odziva.</h2>
-        <p>Prosimo poskusite kasneje ali pa kontaktirajte administratorja spletne ucilnice FRI.</p>
+        <h2>Trenutno vas ne moremo prijaviti, ker se spletna učilnica FRI ne odziva.</h2>
+        <p>Prosimo poskusite kasneje ali pa kontaktirajte administratorja spletne učilnice FRI.</p>
     {% endifequal %}
     </div>
     <div height="150px"></div>
